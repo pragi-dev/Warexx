@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>WAREXX · hero film</title>
+<!--
+  Source for media/hero-warehouse.mp4 — a daylit warehouse aisle, rendered with the same
+  procedural racks as the site. `node tools/record-hero.mjs` steps window.film frame by frame.
+  Open it directly (py tools/serve.py 8766 → /tools/hero-film.html) to watch it play live.
+-->
+<style>
+  html, body { margin: 0; height: 100%; background: #eceae5; overflow: hidden; }
+  .stage { position: fixed; inset: 0; overflow: hidden; background: #eceae5; }
+  .vp3d { position: absolute; inset: 0; perspective: 800px; perspective-origin: 50% 46%; overflow: hidden; }
+  .world { position: absolute; left: 50%; top: 46%; width: 0; height: 0; transform-style: preserve-3d; }
+  .plane { position: absolute; backface-visibility: hidden; background-size: 100% 100%; transform-origin: 50% 50%; }
+  .plane.wall { background-color: #d8d6d1; }
+  .plane.floor { background-color: #d6d3cd; }
+  .plane.ceiling { background-color: #e9ebee; }
+  .plane.backwall { background: radial-gradient(34% 44% at 50% 62%, #ffffff, #f4f2ee 45%, #dcd9d3 80%); }
+  .billboards { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+  .bb { position: absolute; left: 0; top: 0; transform-origin: 0 0; }
+  .bb-lamp { width: 200px; height: 12px; border-radius: 3px; background: #fff; box-shadow: 0 0 24px 6px rgba(255, 255, 255, .95), 0 0 90px 30px rgba(255, 252, 244, .5); }
+  .bb-cone { display: none; }
+  .bb-worker { width: 200px; height: 520px; }
+  .bb-forklift { width: 420px; height: 300px; }
+  .bb-pallet { width: 260px; }
+  .bb-sign { width: 300px; height: 96px; background: #1f4f8f; color: #fff; border-radius: 6px; display: flex; align-items: center; justify-content: center; gap: 18px; font: 700 44px/1 Arial, sans-serif; letter-spacing: .06em; box-shadow: inset 0 0 0 5px rgba(255, 255, 255, .85); }
+  .bb-sign small { font-size: 22px; font-weight: 600; opacity: .8; letter-spacing: .14em; }
+  .bb-shadow { width: 300px; height: 60px; border-radius: 50%; background: radial-gradient(closest-side, rgba(40, 34, 26, .35), transparent); }
+  /* atmosphere: soft haze toward the far dock, cool bloom from the skylight */
+  .haze { position: absolute; inset: 0; pointer-events: none; background:
+    radial-gradient(30% 34% at 50% 46%, rgba(255, 255, 255, .8), rgba(255, 255, 255, .2) 55%, transparent 80%),
+    linear-gradient(rgba(250, 251, 252, .5), transparent 22%, transparent 78%, rgba(206, 200, 190, .25)); }
+  .vignette { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(120% 95% at 50% 46%, transparent 60%, rgba(60, 52, 40, .22)); }
+</style>
+</head>
+<body>
+<div class="stage">
+  <div class="vp3d" id="vp"></div>
+  <div class="billboards" id="bb"></div>
+  <div class="haze"></div>
+  <div class="vignette"></div>
+</div>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="sym-worker" viewBox="0 0 200 520">
+      <path d="M66 268h68l6 240h-30l-10-190-10 190H60z" fill="#2c323c"/>
+      <rect x="58" y="496" width="36" height="14" rx="4" fill="#1b1c1f"/><rect x="106" y="496" width="36" height="14" rx="4" fill="#1b1c1f"/>
+      <path d="M58 100q42-18 84 0l14 150-16 6-8-92-4 110h-56l-4-110-8 92-16-6z" fill="#34465f"/>
+      <path d="M66 104q34-12 68 0l2 164h-72z" fill="#f2a91d"/>
+      <rect x="66" y="170" width="68" height="8" rx="2" fill="#eef2f4"/><rect x="66" y="210" width="68" height="8" rx="2" fill="#eef2f4"/>
+      <circle cx="100" cy="56" r="27" fill="#b88466"/>
+      <path d="M70 46q30-34 60 0v6H70z" fill="#ffffff"/><rect x="64" y="48" width="72" height="7" rx="3" fill="#e9ecef"/>
+    </symbol>
+    <symbol id="sym-worker-scan" viewBox="0 0 200 520">
+      <path d="M64 268h68l6 240h-30l-10-190-10 190H58z" fill="#2c323c"/>
+      <rect x="56" y="496" width="36" height="14" rx="4" fill="#1b1c1f"/><rect x="104" y="496" width="36" height="14" rx="4" fill="#1b1c1f"/>
+      <path d="M56 100q42-18 84 0l10 70 34 34-14 14-38-30-4 90h-56l-4-110-8 92-16-6z" fill="#34465f"/>
+      <path d="M64 104q34-12 68 0l2 164h-72z" fill="#f2a91d"/>
+      <rect x="64" y="170" width="68" height="8" rx="2" fill="#eef2f4"/><rect x="64" y="210" width="68" height="8" rx="2" fill="#eef2f4"/>
+      <rect x="168" y="196" width="26" height="16" rx="3" fill="#23262b"/><rect x="190" y="200" width="6" height="8" fill="#e5484d"/>
+      <circle cx="96" cy="56" r="27" fill="#b88466"/>
+      <path d="M66 46q30-34 60 0v6H66z" fill="#ffffff"/><rect x="60" y="48" width="72" height="7" rx="3" fill="#e9ecef"/>
+    </symbol>
+    <symbol id="sym-forklift" viewBox="0 0 420 300">
+      <rect x="300" y="10" width="14" height="250" fill="#3a3d42"/><rect x="326" y="10" width="14" height="250" fill="#3a3d42"/>
+      <rect x="330" y="236" width="90" height="10" fill="#2b2d31"/><rect x="330" y="200" width="90" height="10" fill="#2b2d31"/>
+      <path d="M40 150h220l40 20v80H30v-70z" fill="#e8a21a"/>
+      <path d="M40 150h220l6 4H38z" fill="#f7c35a"/>
+      <path d="M120 60h110l30 90h-18l-26-76h-86l-20 76h-18z" fill="#2b2d31"/>
+      <rect x="36" y="110" width="70" height="44" rx="6" fill="#cf8c10"/>
+      <rect x="150" y="112" width="40" height="38" rx="4" fill="#1d1e21"/>
+      <circle cx="90" cy="258" r="34" fill="#1c1d20"/><circle cx="90" cy="258" r="13" fill="#7a7f87"/>
+      <circle cx="250" cy="262" r="28" fill="#1c1d20"/><circle cx="250" cy="262" r="11" fill="#7a7f87"/>
+      <rect x="160" y="50" width="26" height="12" rx="3" fill="#ffb547"/>
+      <path d="M40 196h250" stroke="#23252a" stroke-width="5" opacity=".5"/>
+    </symbol>
+  </defs>
+</svg>
+
+<script src="../js/warehouse.js"></script>
+<script>
+(async function () {
+  "use strict";
+  const { Corridor, buildTextures } = window.WX;
+  const LOOP = 12;          // seconds
+  const TRAVEL = 2300;      // world units the camera dollies per loop
+  const tex = await buildTextures({ res: 1.25, mobile: false });
+  await Promise.all([...tex.wall, ...tex.pallet].map((u) => { const i = new Image(); i.src = u; return i.decode().catch(() => {}); }));
+
+  const c = new Corridor(document.getElementById("vp"), document.getElementById("bb"), tex, { length: 9000 });
+  const F = 450; // floor height in world units
+  const worker = (x, z, sym = "sym-worker", flip) => c.add("bb-worker", { x, y: F, z, anchor: "bc", k: 0.365 },
+    `<svg viewBox="0 0 200 520" width="200" height="520"${flip ? ' style="transform:scaleX(-1)"' : ""}><use href="#${sym}"/></svg>`);
+  const shadow = (x, z, k = 1) => c.add("bb-shadow", { x, y: F, z, anchor: "c", k });
+
+  // pallets staged along both rack faces
+  [[-440, -900], [430, -1500], [-430, -2300], [440, -3300], [-440, -4200], [430, -5200], [-430, -6100], [440, -7000]]
+    .forEach(([x, z], i) => { shadow(x, z, 0.9); c.add("bb-pallet", { tag: "img", src: tex.pallet[i % 3], x, y: F, z, anchor: "bc", k: 0.9 }); });
+  // aisle signs hanging from the roof
+  [-1800, -4300, -6800].forEach((z, i) => c.add("bb-sign", { x: 0, y: -300, z, anchor: "c", k: 0.8 }, `<small>AISLE</small>0${4 + i}`));
+
+  // the moving cast
+  const fork = c.add("bb-forklift", { x: 250, y: F, z: -2600, anchor: "bc", k: 0.75 }, '<svg viewBox="0 0 420 300" width="420" height="300" style="transform:scaleX(-1)"><use href="#sym-forklift"/></svg>');
+  const forkSh = shadow(250, -2600, 1.2);
+  const walker = worker(-250, -3100, "sym-worker", true), walkerSh = shadow(-250, -3100, 0.5);
+  const picker = worker(410, -1350, "sym-worker-scan"); shadow(410, -1350, 0.5);
+  const picker2 = worker(-400, -4700, "sym-worker-scan", true); shadow(-400, -4700, 0.5);
+  const far = worker(120, -6200), farSh = shadow(120, -6200, 0.5);
+
+  function render(ms) {
+    const t = (ms / 1000) % LOOP, u = t / LOOP;
+    const z = u * TRAVEL;
+    // forklift drives away down the aisle, slower than the camera: we slowly catch up
+    const fz = -2600 - u * 1100;
+    fork.z = forkSh.z = fz;
+    // a picker walks toward camera on the left
+    const wz = -3100 + u * 900;
+    walker.z = walkerSh.z = wz; walker.y = F - Math.abs(Math.sin(t * 5.2)) * 6;
+    far.x = farSh.x = 120 - u * 260;
+    // scanners sway slightly while working
+    picker.rot = Math.sin(t * 1.3) * 0.6; picker2.rot = Math.sin(t * 1.1 + 1) * 0.6;
+    const sway = Math.sin(u * Math.PI * 2) * 14, bob = Math.sin(z / 110) * 2.2;
+    c.setCamera(z, sway, -250 + bob);
+  }
+  let t0 = null;
+  window.film = {
+    LOOP,
+    ready: true,
+    step(ms) { render(ms); return new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r))); },
+  };
+  if (!/[?&]capture/.test(location.search)) {
+    const loop = (now) => { if (t0 == null) t0 = now; render(now - t0); requestAnimationFrame(loop); };
+    requestAnimationFrame(loop);
+  } else render(0);
+})();
+</script>
+</body>
+</html>

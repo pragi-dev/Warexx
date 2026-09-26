@@ -5,27 +5,52 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>WAREXX — One platform. Every operation.</title>
 <meta name="description" content="WAREXX brings operations, data and decisions into one intelligent platform.">
-<meta name="theme-color" content="#050505">
+<meta name="theme-color" content="#f5f4f0">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Caveat:wght@500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/styles.css?v=11">
+<link href="https://fonts.googleapis.com/css2?family=Fustat:wght@400;500;600;700&family=Schibsted+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Noto+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Caveat:wght@500&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="media/hero-poster.jpg">
+<link rel="stylesheet" href="css/styles.css?v=20">
 </head>
-<body class="is-loading">
+<body class="is-loading at-hero">
+<a class="skip" href="#hero-title">Skip to content</a>
 
-<!-- ============ NAV ============ -->
+<!-- ============ NavigationBar ============ -->
 <header class="nav" id="nav">
   <a class="brand" href="#top" aria-label="WAREXX home">
     <svg class="brand-mark" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4l7.5 16L12 16.8" /><path d="M21 4l-7.5 16L12 16.8" /><path class="acc" d="M8.2 4L12 12l3.8-8" /></svg>
     <span>WAREXX</span>
   </a>
   <nav class="nav-links" aria-label="Primary">
-    <a href="#s-command">Product</a>
-    <a href="#s-flow">Solutions</a>
+    <a href="#s-understand">Platform</a>
+    <div class="nav-dd">
+      <button type="button" aria-expanded="false" aria-controls="featuresMenu">Features <svg class="chev" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5l3 3 3-3"/></svg></button>
+      <div class="dd-panel" id="featuresMenu">
+        <a href="#s-docs"><i class="k-blue"></i><span><b>Document capture</b><small>Invoices, POs and LRs become data</small></span></a>
+        <a href="#s-inventory"><i class="k-green"></i><span><b>Live inventory</b><small>Every bin, every unit, now</small></span></a>
+        <a href="#s-move"><i class="k-amber"></i><span><b>Stock movement</b><small>In, out, transfer, return, audit</small></span></a>
+        <a href="#s-command"><i class="k-violet"></i><span><b>Command Centre</b><small>Ask your operations anything</small></span></a>
+      </div>
+    </div>
     <a href="#s-industries">Industries</a>
-    <a href="#s-final">About</a>
+    <a href="#s-flow">Solutions</a>
+    <a href="#s-network">Resources</a>
+    <a href="#s-final">Contact</a>
   </nav>
-  <a class="btn btn-sm" href="#s-final">Book a Demo</a>
+  <div class="nav-cta">
+    <a class="nbtn nbtn-ghost" href="#s-understand">Explore Platform</a>
+    <a class="nbtn nbtn-dark" href="#s-final">Book a Demo</a>
+  </div>
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="navMenu" aria-label="Open menu"><span></span><span></span></button>
+  <div class="nav-menu" id="navMenu" hidden>
+    <a href="#s-understand">Platform</a>
+    <a href="#s-docs">Features</a>
+    <a href="#s-industries">Industries</a>
+    <a href="#s-flow">Solutions</a>
+    <a href="#s-network">Resources</a>
+    <a href="#s-final">Contact</a>
+    <div class="nav-menu-cta"><a class="nbtn nbtn-ghost" href="#s-understand">Explore Platform</a><a class="nbtn nbtn-dark" href="#s-final">Book a Demo</a></div>
+  </div>
 </header>
 
 <!-- ============ CHAPTER HUD ============ -->
@@ -36,6 +61,90 @@
 </div>
 
 <main id="top">
+
+<!-- ============ 00 · HeroSection ============ -->
+<section class="scene hero" id="s-hero" data-scene="hero" data-chapter="00|One platform|green" style="--len:230" aria-labelledby="hero-title">
+  <div class="stage hero-stage">
+
+    <!-- VideoBackground (fade logic in js/hero.js) -->
+    <div class="hero-video">
+      <video muted playsinline disablepictureinpicture preload="none" poster="media/hero-poster.jpg"
+        data-src-desktop="media/hero-warehouse.mp4" data-src-mobile="media/hero-warehouse-mobile.mp4" aria-hidden="true" tabindex="-1"></video>
+    </div>
+    <div class="hero-scrim" aria-hidden="true"></div>
+
+    <!-- OperationalSignals (midground) -->
+    <div class="signals" aria-label="Live WAREXX signals" role="group">
+      <div class="signal-wrap s-inv" data-side="l">
+        <article class="signal c-green">
+          <header><span class="sig-dot"></span>Invoice processed</header>
+          <p class="sig-main">Invoice #INV-20481</p>
+          <p class="sig-big">₹1,84,500</p>
+          <p class="sig-foot"><span class="tick">✓</span> Structured · 14 fields</p>
+        </article>
+      </div>
+      <div class="signal-wrap s-wh" data-side="l">
+        <article class="signal c-blue">
+          <header><span class="sig-dot"></span>Warehouse status</header>
+          <div class="sig-row"><p class="sig-big">3,842</p><span>items</span></div>
+          <div class="sig-meter" role="img" aria-label="97 percent stock accuracy"><i style="--v:.97"></i></div>
+          <p class="sig-foot">97% stock accuracy · WH-02</p>
+        </article>
+      </div>
+      <div class="signal-wrap s-mv" data-side="r">
+        <article class="signal c-amber">
+          <header><span class="sig-dot"></span>Stock movement</header>
+          <p class="sig-route"><span>Warehouse</span><svg viewBox="0 0 40 10" aria-hidden="true"><path d="M1 5h34M31 1l4 4-4 4"/></svg><span>Store</span></p>
+          <p class="sig-big">1,240 <small>units</small></p>
+          <p class="sig-foot"><span class="st-done">Completed</span></p>
+        </article>
+      </div>
+      <div class="signal-wrap s-cc" data-side="r">
+        <article class="signal c-violet">
+          <header><span class="sig-dot"></span>Command Centre</header>
+          <p class="sig-q">“What is today's stock value?”</p>
+          <p class="sig-a"><b>₹2.84 Cr</b> across 4 warehouses.</p>
+        </article>
+      </div>
+    </div>
+
+    <!-- HeroContent -->
+    <div class="hero-content">
+      <p class="badge"><span class="badge-dot" aria-hidden="true"></span>Operations, connected</p>
+      <h1 class="hero-title" id="hero-title" tabindex="-1">
+        <span class="ht-line">One platform.</span>
+        <span class="ht-line ht-acc">Every operation<i class="ht-dot">.</i></span>
+      </h1>
+      <span class="ht-rule" aria-hidden="true"><i class="k-green"></i><i class="k-blue"></i><i class="k-amber"></i><i class="k-violet"></i></span>
+      <p class="hero-sub">From documents and inventory to warehouses, stores and reports — WAREXX connects your operations in one intelligent platform.</p>
+      <div class="hero-actions">
+        <a class="hbtn hbtn-primary" href="#s-final">Book a Demo <span aria-hidden="true">→</span></a>
+        <a class="hbtn hbtn-ghost" href="#s-understand">Explore WAREXX</a>
+      </div>
+
+      <!-- CommandCentrePreview -->
+      <form class="ask" role="search" aria-label="Ask WAREXX">
+        <label for="askInput" class="ask-label"><span class="ask-pulse" aria-hidden="true"></span>Ask WAREXX</label>
+        <div class="ask-field">
+          <svg class="ask-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/></svg>
+          <input id="askInput" type="text" autocomplete="off" placeholder="Ask anything about your operations...">
+          <button type="submit" aria-label="Ask WAREXX — see the Command Centre"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"/></svg></button>
+        </div>
+      </form>
+    </div>
+
+    <!-- HeroParallaxLayers · foreground (fastest) -->
+    <div class="plx-fore" aria-hidden="true">
+      <svg class="fg fg-l" data-rate="1" viewBox="0 0 520 460"><use href="#sym-boxes"/></svg>
+      <svg class="fg fg-r" data-rate="1.25" viewBox="0 0 520 460"><use href="#sym-pallet-wrap"/></svg>
+    </div>
+
+    <div class="hero-foot">
+      <p class="motto"><span>Scan.</span><span>Understand.</span><span>Operate.</span><span>Ask.</span></p>
+      <p class="micro">From the warehouse floor to the management desk.</p>
+    </div>
+  </div>
+</section>
 
 <!-- ============ 01 · ENTER THE WAREHOUSE ============ -->
 <section class="scene" id="s-enter" data-scene="enter" data-chapter="01|The manual warehouse|amber" style="--len:760">
@@ -65,8 +174,115 @@
   </div>
 </section>
 
+<!-- ============ 01b · FROM MANUAL TO INTELLIGENT ============ -->
+<section class="scene" id="s-understand" data-scene="understand" data-chapter="02|Manual → connected → intelligent|violet" style="--len:980">
+  <div class="stage und-stage">
+    <div class="und-grid" aria-hidden="true"></div>
+
+    <!-- the question -->
+    <div class="title-block t-center und-q" data-el="question">
+      <p class="kicker violet"><span class="dot"></span>Manual → Connected → Intelligent</p>
+      <h2 class="display xl"><span class="line"><span>What if your</span></span><span class="line"><span>operations could</span></span><span class="line"><span><em class="v">understand</em> them?</span></span></h2>
+    </div>
+
+    <!-- four transformations -->
+    <div class="morph" data-el="morph">
+      <ol class="morph-rail" aria-hidden="true"><li></li><li></li><li></li><li></li></ol>
+
+      <div class="mx" data-mx="0">
+        <div class="mx-card">
+          <div class="mx-manual paperish">
+            <b class="pp-h">TAX INVOICE</b><span class="pp-no">No. INV-20481</span>
+            <i class="pp-l"></i><i class="pp-l s"></i><i class="pp-l"></i><i class="pp-l m"></i><i class="pp-l"></i>
+            <span class="pp-hand">total ₹1,84,500 — chk</span><span class="pp-stamp">RECD</span>
+          </div>
+          <div class="mx-digital">
+            <div class="dg-top"><span class="live"></span>INV-20481 <em>captured</em></div>
+            <dl class="dg-fields"><div><dt>Supplier</dt><dd>Shree Balaji Traders</dd></div><div><dt>Date</dt><dd>25 Sep 2026</dd></div><div><dt>GST</dt><dd>₹28,144</dd></div><div><dt>Total</dt><dd>₹1,84,500</dd></div></dl>
+            <p class="dg-ok">✓ Structured · matched to PO-2231</p>
+          </div>
+          <i class="mx-scan"></i>
+        </div>
+        <p class="mx-cap"><span class="from">Paper invoice</span><span class="arrow" aria-hidden="true">→</span><span class="to">Digital data</span></p>
+      </div>
+
+      <div class="mx" data-mx="1">
+        <div class="mx-card">
+          <div class="mx-manual ledgerish">
+            <b class="pp-h">STOCK REGISTER · P.112</b>
+            <span class="lg-row"><em>MCB 32A</em><em>37?</em></span><span class="lg-row"><em>PVC 25mm</em><em>6800</em></span><span class="lg-row"><em>Cu wire</em><em class="x">54 / 36</em></span><span class="lg-row"><em>J-box 4×4</em><em>—</em></span>
+            <span class="pp-hand">recount aisle 4</span>
+          </div>
+          <div class="mx-digital">
+            <div class="dg-top"><span class="live"></span>Live inventory <em>WH-02</em></div>
+            <div class="inv-rows">
+              <p><span>MCB 32A DP</span><b>1,240</b><i style="--v:.82"></i></p>
+              <p><span>PVC Conduit 25mm</span><b>6,800</b><i style="--v:.96"></i></p>
+              <p class="lo"><span>Cu Wire 2.5 sq</span><b>36</b><i style="--v:.12"></i></p>
+              <p><span>Junction Box 4×4</span><b>2,150</b><i style="--v:.64"></i></p>
+            </div>
+          </div>
+          <i class="mx-scan"></i>
+        </div>
+        <p class="mx-cap"><span class="from">Manual stock register</span><span class="arrow" aria-hidden="true">→</span><span class="to">Live inventory</span></p>
+      </div>
+
+      <div class="mx" data-mx="2">
+        <div class="mx-card">
+          <div class="mx-manual searchish">
+            <span class="fl f1">FILE 2024–25</span><span class="fl f2">PURCHASE</span><span class="fl f3">INVOICES · SEP</span><span class="fl f4">LR BOOK</span>
+            <svg class="lens" viewBox="0 0 60 60"><circle cx="24" cy="24" r="15"/><path d="M35 35l16 16"/></svg>
+            <span class="pp-hand">where is INV-20481??</span>
+          </div>
+          <div class="mx-digital ask-demo">
+            <div class="ad-bar"><span class="ask-pulse"></span>Find invoice INV-20481.</div>
+            <div class="ad-ans"><b>INV-20481</b> · Shree Balaji Traders · ₹1,84,500<br><span>Received 25 Sep · GRN-0921 · WH-02 · A-04-02</span></div>
+          </div>
+          <i class="mx-scan"></i>
+        </div>
+        <p class="mx-cap"><span class="from">Searching through records</span><span class="arrow" aria-hidden="true">→</span><span class="to">Ask WAREXX</span></p>
+      </div>
+
+      <div class="mx" data-mx="3">
+        <div class="mx-card">
+          <div class="mx-manual scatter">
+            <span class="nd n1">Purchase</span><span class="nd n2">Warehouse</span><span class="nd n3">Store</span><span class="nd n4">Accounts</span><span class="nd n5">Reports</span>
+            <svg viewBox="0 0 400 240" preserveAspectRatio="none"><path d="M70 50 L150 120 M250 40 L300 110 M120 190 L200 170 M320 190 L360 150"/></svg>
+          </div>
+          <div class="mx-digital flowish">
+            <svg viewBox="0 0 400 240" preserveAspectRatio="none" aria-hidden="true"><path d="M30 120 H370"/></svg>
+            <span class="fnd" style="--x:8%">Purchase</span><span class="fnd" style="--x:29%">Warehouse</span><span class="fnd" style="--x:50%">Store</span><span class="fnd" style="--x:71%">Accounts</span><span class="fnd" style="--x:92%">Reports</span>
+          </div>
+          <i class="mx-scan"></i>
+        </div>
+        <p class="mx-cap"><span class="from">Disconnected processes</span><span class="arrow" aria-hidden="true">→</span><span class="to">One connected flow</span></p>
+      </div>
+    </div>
+
+    <!-- the four stages -->
+    <div class="stages" data-el="stages">
+      <p class="kicker green"><span class="dot"></span>How WAREXX works</p>
+      <ol>
+        <li style="--c:var(--blue)"><b>Scan</b><span>Documents become structured data.</span></li>
+        <li style="--c:var(--violet)"><b>Understand</b><span>WAREXX understands operational information.</span></li>
+        <li style="--c:var(--green)"><b>Operate</b><span>Teams manage inventory, warehouses, purchases, stock movement and retail operations.</span></li>
+        <li style="--c:var(--violet)"><b>Ask</b><span>Anyone can ask WAREXX for operational answers.</span></li>
+      </ol>
+    </div>
+
+    <!-- who it is for -->
+    <div class="built" data-el="built">
+      <p class="built-line">Built for businesses where operations matter.</p>
+      <ul class="built-list">
+        <li>Manufacturing</li><li>Textiles</li><li>Retail</li><li>Wholesale &amp; Distribution</li><li>FMCG</li><li>Automotive</li><li>Electronics</li><li>Pharmaceuticals</li><li>Logistics &amp; 3PL</li>
+      </ul>
+      <p class="built-sub">Your intelligent operations layer.</p>
+    </div>
+  </div>
+</section>
+
 <!-- ============ 02 · DOCUMENTS ============ -->
-<section class="scene" id="s-docs" data-scene="docs" data-chapter="02|From documents to data|amber" style="--len:520">
+<section class="scene" id="s-docs" data-scene="docs" data-chapter="03|From documents to data|amber" style="--len:520">
   <div class="stage docs-stage">
     <div class="desk-light"></div>
     <div class="docs-heads">
@@ -137,7 +353,7 @@
 </section>
 
 <!-- ============ 03 · INVENTORY ============ -->
-<section class="scene" id="s-inventory" data-scene="inventory" data-chapter="03|Inventory|amber" style="--len:560">
+<section class="scene" id="s-inventory" data-scene="inventory" data-chapter="04|Inventory|amber" style="--len:560">
   <div class="stage inv-stage">
     <div class="inv-frame" data-el="invFrame">
       <img class="inv-rack" data-el="rackImg" alt="" decoding="async">
@@ -169,7 +385,7 @@
 </section>
 
 <!-- ============ 04 · STOCK MOVEMENT ============ -->
-<section class="scene" id="s-move" data-scene="move" data-chapter="04|Stock movement|blue" style="--len:600">
+<section class="scene" id="s-move" data-scene="move" data-chapter="05|Stock movement|blue" style="--len:600">
   <div class="stage move-stage">
     <div class="plan-vp">
       <div class="plan" data-el="plan">
@@ -196,7 +412,7 @@
 </section>
 
 <!-- ============ 05 · BREAKING POINT ============ -->
-<section class="scene" id="s-break" data-scene="break" data-chapter="05|The breaking point|amber" style="--len:520">
+<section class="scene" id="s-break" data-scene="break" data-chapter="06|The breaking point|amber" style="--len:520">
   <div class="stage break-stage">
     <div class="pile" data-el="pile" aria-hidden="true"></div>
     <div class="break-vignette" data-el="vig"></div>
@@ -205,7 +421,7 @@
 </section>
 
 <!-- ============ 06 · COMMAND CENTER ============ -->
-<section class="scene" id="s-command" data-scene="command" data-chapter="06|Command Center|violet" style="--len:780">
+<section class="scene" id="s-command" data-scene="command" data-chapter="07|Command Centre|violet" style="--len:780">
   <div class="stage cmd-stage">
     <div class="cmd-aura"></div>
     <h2 class="display xl cmd-head" data-el="justAsk"><span class="line"><span>Or… just ask.</span></span></h2>
@@ -273,7 +489,7 @@
 </section>
 
 <!-- ============ 07 · THE WAREHOUSE TRANSFORMS ============ -->
-<section class="scene" id="s-transform" data-scene="transform" data-chapter="07|The warehouse transforms|green" style="--len:680">
+<section class="scene" id="s-transform" data-scene="transform" data-chapter="08|The warehouse transforms|green" style="--len:680">
   <div class="stage">
     <div class="vp3d" data-corridor="digital"></div>
     <div class="billboards" data-billboards></div>
@@ -291,7 +507,7 @@
 </section>
 
 <!-- ============ 08 · COMPLETE OPERATION ============ -->
-<section class="scene" id="s-flow" data-scene="flow" data-chapter="08|Complete operation|green" style="--len:700">
+<section class="scene" id="s-flow" data-scene="flow" data-chapter="09|Complete operation|green" style="--len:1050">
   <div class="stage flow-stage">
     <div class="flow-bg" data-el="flowBg"></div>
     <div class="flow-intro">
@@ -306,18 +522,18 @@
 </section>
 
 <!-- ============ 09 · MULTIPLE LOCATIONS ============ -->
-<section class="scene" id="s-network" data-scene="network" data-chapter="09|Every location|blue" style="--len:600">
+<section class="scene" id="s-network" data-scene="network" data-chapter="10|Every location|blue" style="--len:600">
   <div class="stage net-stage">
     <svg class="map" data-el="map" aria-hidden="true"></svg>
     <div class="net-final" data-el="netFinal">
-      <p class="wordmark-sm">WAREXX</p>
-      <h2 class="display lg"><span class="line"><span>One platform.</span></span><span class="line"><span>Every operation.</span></span></h2>
+      <p class="wordmark-sm">Every location · one record</p>
+      <h2 class="display lg"><span class="line"><span>Your business.</span></span><span class="line"><span>Connected<em class="g">.</em></span></span></h2>
     </div>
   </div>
 </section>
 
 <!-- ============ 10 · EVERY INDUSTRY ============ -->
-<section class="scene" id="s-industries" data-scene="industries" data-chapter="10|Every industry|green" style="--len:640">
+<section class="scene" id="s-industries" data-scene="industries" data-chapter="11|Every industry|green" style="--len:960">
   <div class="stage ind-stage">
     <div class="ind-head" data-el="indHead">
       <p class="kicker green"><span class="dot"></span>Built for every warehouse</p>
@@ -412,20 +628,22 @@
 </section>
 
 <!-- ============ 11 · FINAL ============ -->
-<section class="final" id="s-final" data-scene="final" data-chapter="11|Connected|green">
+<section class="final" id="s-final" data-scene="final" data-chapter="12|Connected|green">
   <div class="final-inner">
     <svg class="final-mark" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4l7.5 16L12 16.8" /><path d="M21 4l-7.5 16L12 16.8" /><path class="acc" d="M8.2 4L12 12l3.8-8" /></svg>
-    <h2 class="display xl">Your business.<br>Connected<em class="g">.</em></h2>
-    <p class="sub">WAREXX brings operations, data and decisions into one intelligent platform.</p>
+    <p class="final-word">WAREXX</p>
+    <h2 class="hero-title final-title"><span class="ht-line">One platform.</span><span class="ht-line ht-acc">Every operation<i class="ht-dot">.</i></span></h2>
+    <p class="motto final-motto"><span>Scan.</span><span>Understand.</span><span>Operate.</span><span>Ask.</span></p>
     <div class="ctas">
-      <a class="btn" href="mailto:hello@warexx.com?subject=WAREXX%20demo">Book a Demo</a>
-      <a class="btn btn-ghost" href="#s-command">Explore WAREXX <span aria-hidden="true">→</span></a>
+      <a class="hbtn hbtn-primary hbtn-lg" href="mailto:hello@warexx.com?subject=WAREXX%20demo">Book a Demo <span aria-hidden="true">→</span></a>
+      <a class="hbtn hbtn-ghost hbtn-lg" href="#s-command">See the Command Centre</a>
     </div>
+    <p class="final-note">Your intelligent operations layer — from the warehouse floor to the management desk.</p>
   </div>
-  <footer class="footer">
+  <footer class="footer" id="footer">
     <div class="foot-row">
       <span>© 2026 WAREXX</span>
-      <nav aria-label="Footer"><a href="#s-command">Product</a><a href="#s-flow">Solutions</a><a href="#s-industries">Industries</a><a href="#s-final">About</a></nav>
+      <nav aria-label="Footer"><a href="#s-understand">Platform</a><a href="#s-flow">Solutions</a><a href="#s-industries">Industries</a><a href="#s-final">Contact</a></nav>
       <span class="mono">Inventory · Procurement · Documents · Sales · Reports</span>
     </div>
     <p class="credits">Industry photography via Unsplash: Simon Kadula, EqualStock, Cova Software, AFINIS Group, Franki Chamaki, Lenny Kuhne, Louis Reed, National Cancer Institute, Duc LE.</p>
@@ -435,41 +653,75 @@
 
 </main>
 
-<!-- Shared silhouettes -->
+<!-- Shared silhouettes (light) -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <defs>
-    <linearGradient id="rim" x1="0" x2="1"><stop offset="0" stop-color="#0d0c0b"/><stop offset=".86" stop-color="#070707"/><stop offset="1" stop-color="#4a3418"/></linearGradient>
     <symbol id="sym-worker" viewBox="0 0 200 520">
-      <g fill="url(#rim)">
-        <circle cx="100" cy="52" r="30"/>
-        <path d="M58 100q42-18 84 0l14 150-16 6-8-92-4 110h-56l-4-110-8 92-16-6z"/>
-        <path d="M66 268h68l6 240h-30l-10-190-10 190H60z"/>
-      </g>
-      <g fill="#b9772a" opacity=".32"><rect x="66" y="170" width="68" height="7" rx="2"/><rect x="66" y="208" width="68" height="7" rx="2"/></g>
-      <path d="M70 26q30-26 60 0v10H70z" fill="#6b4a1c" opacity=".7"/>
+      <path d="M66 268h68l6 240h-30l-10-190-10 190H60z" fill="#2c323c"/>
+      <rect x="58" y="496" width="36" height="14" rx="4" fill="#1b1c1f"/><rect x="106" y="496" width="36" height="14" rx="4" fill="#1b1c1f"/>
+      <path d="M58 100q42-18 84 0l14 150-16 6-8-92-4 110h-56l-4-110-8 92-16-6z" fill="#34465f"/>
+      <path d="M66 104q34-12 68 0l2 164h-72z" fill="#f2a91d"/>
+      <rect x="66" y="170" width="68" height="8" rx="2" fill="#eef2f4"/><rect x="66" y="210" width="68" height="8" rx="2" fill="#eef2f4"/>
+      <circle cx="100" cy="56" r="27" fill="#b88466"/>
+      <path d="M70 46q30-34 60 0v6H70z" fill="#ffffff"/><rect x="64" y="48" width="72" height="7" rx="3" fill="#e9ecef"/>
     </symbol>
-    <symbol id="sym-worker-clip" viewBox="0 0 200 520">
-      <g fill="url(#rim)">
-        <circle cx="96" cy="52" r="30"/>
-        <path d="M56 100q42-18 84 0l10 70 34 34-14 14-38-30-4 90h-56l-4-110-8 92-16-6z"/>
-        <path d="M64 268h68l6 240h-30l-10-190-10 190H58z"/>
-      </g>
-      <rect x="150" y="176" width="40" height="52" rx="3" transform="rotate(-24 170 202)" fill="#d8cfbf" opacity=".3"/>
-      <g fill="#b9772a" opacity=".32"><rect x="64" y="170" width="68" height="7" rx="2"/><rect x="64" y="208" width="68" height="7" rx="2"/></g>
-      <path d="M66 26q30-26 60 0v10H66z" fill="#6b4a1c" opacity=".7"/>
+    <symbol id="sym-worker-scan" viewBox="0 0 200 520">
+      <path d="M64 268h68l6 240h-30l-10-190-10 190H58z" fill="#2c323c"/>
+      <rect x="56" y="496" width="36" height="14" rx="4" fill="#1b1c1f"/><rect x="104" y="496" width="36" height="14" rx="4" fill="#1b1c1f"/>
+      <path d="M56 100q42-18 84 0l10 70 34 34-14 14-38-30-4 90h-56l-4-110-8 92-16-6z" fill="#34465f"/>
+      <path d="M64 104q34-12 68 0l2 164h-72z" fill="#f2a91d"/>
+      <rect x="64" y="170" width="68" height="8" rx="2" fill="#eef2f4"/><rect x="64" y="210" width="68" height="8" rx="2" fill="#eef2f4"/>
+      <rect x="168" y="196" width="26" height="16" rx="3" fill="#23262b"/><rect x="190" y="200" width="6" height="8" fill="#e5484d"/>
+      <circle cx="96" cy="56" r="27" fill="#b88466"/>
+      <path d="M66 46q30-34 60 0v6H66z" fill="#ffffff"/><rect x="60" y="48" width="72" height="7" rx="3" fill="#e9ecef"/>
     </symbol>
     <symbol id="sym-forklift" viewBox="0 0 420 300">
-      <g fill="#0e0d0c">
-        <rect x="300" y="10" width="14" height="250"/><rect x="326" y="10" width="14" height="250"/>
-        <rect x="330" y="236" width="90" height="10"/><rect x="330" y="200" width="90" height="10"/>
-        <path d="M40 150h220l40 20v80H30v-70z"/>
-        <path d="M120 60h110l30 90h-18l-26-76h-86l-20 76h-18z"/>
-        <rect x="36" y="110" width="70" height="44" rx="6"/>
-      </g>
-      <circle cx="90" cy="258" r="34" fill="#070707" stroke="#2a2622" stroke-width="4"/>
-      <circle cx="250" cy="262" r="28" fill="#070707" stroke="#2a2622" stroke-width="4"/>
-      <rect x="160" y="50" width="26" height="12" rx="3" fill="#ffb547" class="beacon"/>
-      <path d="M40 180h250" stroke="#c98a2e" stroke-width="6" opacity=".7"/>
+      <rect x="300" y="10" width="14" height="250" fill="#3a3d42"/><rect x="326" y="10" width="14" height="250" fill="#3a3d42"/>
+      <rect x="330" y="236" width="90" height="10" fill="#2b2d31"/><rect x="330" y="200" width="90" height="10" fill="#2b2d31"/>
+      <path d="M40 150h220l40 20v80H30v-70z" fill="#e8a21a"/>
+      <path d="M40 150h220l6 4H38z" fill="#f7c35a"/>
+      <path d="M120 60h110l30 90h-18l-26-76h-86l-20 76h-18z" fill="#2b2d31"/>
+      <rect x="36" y="110" width="70" height="44" rx="6" fill="#cf8c10"/>
+      <rect x="150" y="112" width="40" height="38" rx="4" fill="#1d1e21"/>
+      <circle cx="90" cy="258" r="34" fill="#1c1d20"/><circle cx="90" cy="258" r="13" fill="#7a7f87"/>
+      <circle cx="250" cy="262" r="28" fill="#1c1d20"/><circle cx="250" cy="262" r="11" fill="#7a7f87"/>
+      <rect x="160" y="50" width="26" height="12" rx="3" fill="#ffb547"/>
+      <path d="M40 196h250" stroke="#23252a" stroke-width="5" opacity=".5"/>
+    </symbol>
+    <symbol id="sym-worker-clip" viewBox="0 0 200 520">
+      <path d="M64 268h68l6 240h-30l-10-190-10 190H58z" fill="#2c323c"/>
+      <path d="M56 100q42-18 84 0l10 70 34 34-14 14-38-30-4 90h-56l-4-110-8 92-16-6z" fill="#34465f"/>
+      <path d="M64 104q34-12 68 0l2 164h-72z" fill="#f2a91d"/>
+      <rect x="64" y="170" width="68" height="8" rx="2" fill="#eef2f4"/><rect x="64" y="210" width="68" height="8" rx="2" fill="#eef2f4"/>
+      <rect x="150" y="176" width="40" height="52" rx="3" transform="rotate(-24 170 202)" fill="#fbfaf6" stroke="#8a8378"/>
+      <circle cx="96" cy="56" r="27" fill="#b88466"/>
+      <path d="M66 46q30-34 60 0v6H66z" fill="#ffffff"/><rect x="60" y="48" width="72" height="7" rx="3" fill="#e9ecef"/>
+    </symbol>
+    <!-- hero foreground props -->
+    <symbol id="sym-box" viewBox="0 0 200 170">
+      <path d="M0 40L40 0h160l-40 40z" fill="#dcb47e"/><path d="M160 40l40-40v130l-40 40z" fill="#a9794a"/>
+      <rect x="0" y="40" width="160" height="130" fill="#c99a62"/>
+      <path d="M62 40l40-40h22l-40 40z" fill="#e8cfa2"/><rect x="62" y="40" width="22" height="46" fill="#e2c28f"/>
+      <rect x="14" y="104" width="64" height="44" fill="#fbfaf6"/>
+      <g fill="#1d1d1f"><rect x="20" y="112" width="3" height="24"/><rect x="26" y="112" width="1.5" height="24"/><rect x="30" y="112" width="4" height="24"/><rect x="37" y="112" width="2" height="24"/><rect x="42" y="112" width="1.5" height="24"/><rect x="46" y="112" width="4" height="24"/><rect x="53" y="112" width="2" height="24"/><rect x="58" y="112" width="3" height="24"/><rect x="64" y="112" width="1.5" height="24"/><rect x="68" y="112" width="4" height="24"/></g>
+      <rect x="20" y="139" width="40" height="3" fill="#8a8378"/>
+    </symbol>
+    <symbol id="sym-boxes" viewBox="0 0 520 460">
+      <use href="#sym-box" x="10" y="290" width="200" height="170"/>
+      <use href="#sym-box" x="190" y="300" width="190" height="160"/>
+      <use href="#sym-box" x="60" y="130" width="200" height="170"/>
+      <rect x="250" y="380" width="120" height="30" rx="3" fill="#fbfaf6" stroke="#10a55b" stroke-width="3"/>
+      <text x="262" y="401" font-family="JetBrains Mono, monospace" font-size="15" font-weight="600" fill="#0b7f45">A-04-02 ✓</text>
+    </symbol>
+    <symbol id="sym-pallet-wrap" viewBox="0 0 520 460">
+      <rect x="40" y="420" width="440" height="30" fill="#b8925f"/><rect x="70" y="432" width="60" height="18" fill="#6b5236"/><rect x="230" y="432" width="60" height="18" fill="#6b5236"/><rect x="390" y="432" width="60" height="18" fill="#6b5236"/>
+      <use href="#sym-box" x="40" y="270" width="176" height="150"/><use href="#sym-box" x="190" y="270" width="176" height="150"/><use href="#sym-box" x="330" y="270" width="176" height="150"/>
+      <use href="#sym-box" x="90" y="130" width="176" height="150"/><use href="#sym-box" x="250" y="130" width="176" height="150"/>
+      <path d="M40 150L90 120h356l40 30v270H40z" fill="#ffffff" opacity=".22"/>
+      <path d="M120 140l40 260M300 130l30 280" stroke="#ffffff" stroke-width="10" opacity=".35"/>
+      <rect x="360" y="330" width="120" height="70" rx="4" fill="#fbfaf6"/>
+      <text x="372" y="352" font-family="JetBrains Mono, monospace" font-size="14" font-weight="600" fill="#1d1d1f">WX-GRN-0921</text>
+      <g fill="#1d1d1f"><rect x="372" y="362" width="3" height="26"/><rect x="379" y="362" width="1.5" height="26"/><rect x="384" y="362" width="4" height="26"/><rect x="392" y="362" width="2" height="26"/><rect x="398" y="362" width="1.5" height="26"/><rect x="403" y="362" width="4" height="26"/><rect x="411" y="362" width="2" height="26"/><rect x="417" y="362" width="3" height="26"/><rect x="424" y="362" width="1.5" height="26"/><rect x="429" y="362" width="4" height="26"/><rect x="437" y="362" width="2" height="26"/><rect x="443" y="362" width="3" height="26"/><rect x="450" y="362" width="1.5" height="26"/><rect x="455" y="362" width="4" height="26"/><rect x="463" y="362" width="2" height="26"/></g>
     </symbol>
   </defs>
 </svg>
@@ -477,7 +729,8 @@
 <div class="grain" aria-hidden="true"></div>
 <div class="curtain" aria-hidden="true"></div>
 
-<script src="js/warehouse.js?v=11"></script>
-<script src="js/main.js?v=11"></script>
+<script src="js/warehouse.js?v=20"></script>
+<script src="js/hero.js?v=20"></script>
+<script src="js/main.js?v=20"></script>
 </body>
 </html>
