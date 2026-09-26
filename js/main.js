@@ -681,12 +681,12 @@
   /* ---------- 08 · Complete operation ---------- */
   scenes.flow = {
     fade: [0.05, 0.05],
-    glide: 1.4,
+    glide: 1.1,
     stages: [
       ["Purchase", "Requirement raised · 400 units", "#4da3ff"],
       ["PO", "PO-2231 · approved", "#4da3ff"],
       ["LR", "LR 88412 · in transit", "#4da3ff"],
-      ["Invoice", "SBT/1187 · captured", "#4da3ff"],
+      ["Invoice", "SC/1187 · captured", "#4da3ff"],
       ["GRN", "GRN-0921 · 42 boxes received", "#3df58a"],
       ["Inventory", "+1,240 units · live", "#3df58a"],
       ["Warehouse", "WH-02 · A-04-02", "#3df58a"],

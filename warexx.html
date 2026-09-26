@@ -569,14 +569,12 @@ figcaption { font-size: 11px; color: var(--muted); margin-bottom: 8px; }
 .ind p { margin: 0; font-family: var(--f-mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
 .ind-count { position: absolute; right: var(--gutter); top: 14vh; z-index: 3; color: var(--dim); }
 .ind-count b { color: var(--text); font-weight: 500; }
-.credits { margin: 0; padding: 0 var(--gutter) 18px; font-size: 10.5px; color: var(--dim); }
 @media (max-width: 820px) {
   .ind { width: 80vw; height: 50vh; }
   .ind-track { gap: 14px; padding-bottom: 7vh; }
   .ind-head { top: 11vh; right: var(--gutter); }
   .ind-head .sub { font-size: 14px; margin-top: 12px; }
   .ind-count { top: auto; bottom: 3vh; }
-  .credits { text-align: center; }
 }
 
 /* ---------- Final ---------- */
@@ -739,13 +737,13 @@ body:not(.is-loading) .curtain { opacity: 0; }
         <article class="paper" data-el="paper" aria-label="Paper invoice">
           <div class="paper-head">
             <div>
-              <b class="sp" data-f="supplier">SHREE BALAJI TRADERS</b>
-              <small>Plot 14, MIDC Bhosari, Pune 411026 · GSTIN 27AABFS1187K1Z2</small>
+              <b class="sp" data-f="supplier">SAMPLE.CO</b>
+              <small>Unit 00, Sample Industrial Area, City 000000 · GSTIN 00AAAAA0000A0Z0</small>
             </div>
             <div class="paper-title">TAX INVOICE</div>
           </div>
           <div class="paper-meta">
-            <span>Invoice No. <b class="sp" data-f="invno">SBT/26-27/1187</b></span>
+            <span>Invoice No. <b class="sp" data-f="invno">SC/26-27/1187</b></span>
             <span>Date <b class="sp" data-f="date">25-09-2026</b></span>
             <span>LR No. 88412</span>
           </div>
@@ -758,7 +756,7 @@ body:not(.is-loading) .curtain { opacity: 0; }
             </tbody>
           </table>
           <div class="paper-foot">
-            <div class="hand">recd. 42 box — chk qty w/ PO<br>short 2? — call Ramesh</div>
+            <div class="hand">recd. 42 box — chk qty w/ PO<br>short 2? — call supplier</div>
             <div class="paper-totals">
               <span>Sub-total <b class="sp" data-f="sub">₹ 97,640.00</b></span>
               <span>GST 18% <b class="sp" data-f="tax">₹ 17,575.20</b></span>
@@ -774,8 +772,8 @@ body:not(.is-loading) .curtain { opacity: 0; }
       <div class="record" data-el="record" aria-label="WAREXX digital record">
         <div class="record-top"><span class="live"></span>WAREXX <em>· Document captured</em><span class="rid">DOC-20260925-1187</span></div>
         <dl class="record-fields">
-          <div><dt>Supplier</dt><dd data-t="supplier">Shree Balaji Traders</dd></div>
-          <div><dt>Invoice No.</dt><dd data-t="invno">SBT/26-27/1187</dd></div>
+          <div><dt>Supplier</dt><dd data-t="supplier">Sample.co</dd></div>
+          <div><dt>Invoice No.</dt><dd data-t="invno">SC/26-27/1187</dd></div>
           <div><dt>Date</dt><dd data-t="date">25 Sep 2026</dd></div>
         </dl>
         <div class="record-table">
@@ -1088,7 +1086,6 @@ body:not(.is-loading) .curtain { opacity: 0; }
       <nav aria-label="Footer"><a href="#s-command">Product</a><a href="#s-flow">Solutions</a><a href="#s-industries">Industries</a><a href="#s-final">About</a></nav>
       <span class="mono">Inventory · Procurement · Documents · Sales · Reports</span>
     </div>
-    <p class="credits">Industry photography via Unsplash: Simon Kadula, EqualStock, Cova Software, AFINIS Group, Franki Chamaki, Lenny Kuhne, Louis Reed, National Cancer Institute, Duc LE.</p>
     <div class="giant" aria-hidden="true">WAREXX</div>
   </footer>
 </section>
@@ -2206,12 +2203,12 @@ body:not(.is-loading) .curtain { opacity: 0; }
   /* ---------- 08 · Complete operation ---------- */
   scenes.flow = {
     fade: [0.05, 0.05],
-    glide: 1.4,
+    glide: 1.1,
     stages: [
       ["Purchase", "Requirement raised · 400 units", "#4da3ff"],
       ["PO", "PO-2231 · approved", "#4da3ff"],
       ["LR", "LR 88412 · in transit", "#4da3ff"],
-      ["Invoice", "SBT/1187 · captured", "#4da3ff"],
+      ["Invoice", "SC/1187 · captured", "#4da3ff"],
       ["GRN", "GRN-0921 · 42 boxes received", "#3df58a"],
       ["Inventory", "+1,240 units · live", "#3df58a"],
       ["Warehouse", "WH-02 · A-04-02", "#3df58a"],
