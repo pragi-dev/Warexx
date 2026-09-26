@@ -214,7 +214,8 @@
       resize() { vh = innerHeight; k = innerWidth < 821 ? 0.45 : innerWidth < 1200 ? 0.75 : 1; },
       update(p) {
         const m = RM ? 0 : k;
-        const e = easeInOut(clamp(p));
+        // linear in scroll: depth should track the hand exactly, easing here reads as lag
+        const e = clamp(p);
         // background: a slow dolly deeper into the aisle
         set(L.bg, "transform", `translate3d(0,${(-e * vh * 0.06 * m).toFixed(1)}px,0) scale(${(1 + e * 0.16 * m).toFixed(4)})`);
         // midground: operational signals drift up and apart, then clear

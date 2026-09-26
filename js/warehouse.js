@@ -240,7 +240,7 @@
     // front-on rack for the inventory scene (1600 x 900 design space)
     const fr = opts.mobile ? 0.7 : 1;
     const f = makeCanvas(1600 * fr, 900 * fr);
-    const frontOpts = { seed: 5, bayW: 300, offset: 80, levels: [0.97, 0.7, 0.44, 0.18, -0.2], code: "A", ambient: 18,
+    const frontOpts = { seed: 5, bayW: 300, offset: 80, levels: [0.97, 0.7, 0.44, 0.18, -0.2], code: "A", ambient: 176,
       lamps: [{ x: 620 * fr, y: 60 * fr, r: 900 * fr, i: 1 }, { x: 1300 * fr, y: 120 * fr, r: 700 * fr, i: 0.55 }] };
     drawRack(f, frontOpts);
     out.front = await toURL(f);

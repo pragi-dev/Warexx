@@ -59,6 +59,70 @@
   const scenes = {};
   let TEX = null;
 
+  /* ---------- 00 · Hero ----------
+     Components live in hero.js; the engine only feeds scroll progress
+     to HeroParallaxLayers so every layer moves on the same clock. */
+  scenes.hero = {
+    fade: [0, 0.07],
+    init() { this.H = window.WXHero; },
+    resize() { this.H && this.H.parallax.resize(); },
+    update(p) { this.H && this.H.parallax.update(p); },
+  };
+
+  /* ---------- 02 · Manual → connected → intelligent ---------- */
+  scenes.understand = {
+    fade: [0.03, 0.03],
+    init(s) {
+      const q = (k) => $(`[data-el="${k}"]`, s.el);
+      Object.assign(this, { q: q("question"), stages: q("stages"), built: q("built") });
+      this.qExtras = $$(".kicker", this.q);
+      this.rail = $(".morph-rail", s.el);
+      this.railLi = $$("li", this.rail);
+      this.mx = $$(".mx", s.el);
+      this.stLi = $$("li", this.stages);
+      this.bLi = $$(".built-list li", this.built);
+      this.bSub = $(".built-sub", this.built);
+      this.bLine = $(".built-line", this.built);
+    },
+    update(p) {
+      // 1. the question
+      title(this.q, seg(p, 0.02, 0.09), seg(p, 0.13, 0.17));
+      this.qExtras.forEach((e) => setStyle(e, "opacity", easeOut(seg(p, 0.05, 0.1)).toFixed(3)));
+      // 2. four transformations: the scan line sweeps each manual record into its WAREXX form
+      setStyle(this.rail, "opacity", (seg(p, 0.15, 0.18) * (1 - seg(p, 0.66, 0.69))).toFixed(3));
+      this.mx.forEach((el, i) => {
+        const a = 0.17 + i * 0.12;
+        const inn = easeOut(seg(p, a - 0.01, a + 0.02));
+        const out = i < 3 ? seg(p, a + 0.105, a + 0.12) : seg(p, 0.66, 0.69);
+        const r = easeInOut(seg(p, a + 0.025, a + 0.09));
+        const o = inn * (1 - out);
+        setStyle(el, "opacity", o.toFixed(3));
+        el.classList.toggle("show", o > 0.01);
+        this.railLi[i].style.setProperty("--f", r.toFixed(3));
+        if (o <= 0.01) return;
+        el.style.setProperty("--r", r.toFixed(3));
+        el.style.setProperty("--s", r > 0.001 && r < 0.999 ? "1" : "0");
+        const y = (1 - inn) * 40 - out * 40;
+        el.style.transform = `translate(-50%,calc(-50% + ${y.toFixed(1)}px)) scale(${(0.97 + 0.03 * inn).toFixed(4)})`;
+      });
+      // 3. scan → understand → operate → ask
+      setStyle(this.stages, "opacity", (seg(p, 0.69, 0.72) * (1 - seg(p, 0.8, 0.83))).toFixed(3));
+      let cur = -1;
+      this.stLi.forEach((li, i) => { const on = p > 0.71 + i * 0.017; li.classList.toggle("on", on); if (on) cur = i; });
+      this.stLi.forEach((li, i) => li.classList.toggle("cur", i === cur));
+      // 4. who it is for
+      const bo = seg(p, 0.83, 0.86);
+      setStyle(this.built, "opacity", bo.toFixed(3));
+      setStyle(this.bLine, "transform", `translate3d(0,${((1 - easeOut(bo)) * 24).toFixed(1)}px,0)`);
+      this.bLi.forEach((li, j) => {
+        const t = easeOut(seg(p, 0.845 + j * 0.007, 0.865 + j * 0.007));
+        setStyle(li, "opacity", t.toFixed(3));
+        setStyle(li, "transform", `translate3d(0,${((1 - t) * 14).toFixed(1)}px,0)`);
+      });
+      setStyle(this.bSub, "opacity", seg(p, 0.9, 0.93).toFixed(3));
+    },
+  };
+
   /* ---------- 01 · Enter the warehouse ---------- */
   scenes.enter = {
     fade: [0, 0.05],
@@ -69,7 +133,7 @@
       this.clock = $('[data-el="clock"]', s.el);
       this.openSub = $$(".kicker, .sub, .scroll-cue", this.open);
       this.dark = document.createElement("div");
-      this.dark.style.cssText = "position:absolute;inset:0;background:#000;pointer-events:none;z-index:2";
+      this.dark.style.cssText = "position:absolute;inset:0;background:#f5f4f0;pointer-events:none;z-index:2";
       s.stage.insertBefore(this.dark, $(".depth-fog", s.stage));
       s.always = true;
     },
@@ -101,16 +165,18 @@
       tags.forEach(([t, x, y, z]) => c.add("bb-tag-wrap", { x, y, z, anchor: "c", k: 1.1 }, `<span class="bb-tag">${t}</span>`));
       this.lamps = c.bbs.filter((b) => b.el.classList.contains("bb-lamp") || b.el.classList.contains("bb-cone"));
       // lamps come on near → far, a pair (fixture + cone) at a time
-      this.lamps.forEach((b, i) => { b.on = 0.25 + Math.floor(i / 2) * 0.11; b.alpha = 0; });
+      this.lamps.forEach((b, i) => { b.on = 0.1 + Math.floor(i / 2) * 0.08; b.alpha = 0; });
     },
     /** Called once textures are decoded, fonts are in and the layers have painted. */
-    start() { this.t0 = performance.now(); },
+    start() { this.armed = true; },
     update(p, s, now) {
+      // the lights come up when the visitor walks in (after the hero), not on page load
+      if (this.t0 == null && this.armed && scrollY + innerHeight * 0.6 > s.top) this.t0 = now;
       const intro = RM ? 9 : this.t0 != null ? Math.max(0, (now - this.t0) / 1000) : 0;
-      // opening titles appear on load, then scroll carries them away
-      const tin = seg(intro, 1.1, 2.7);
+      // opening titles appear on arrival, then scroll carries them away
+      const tin = seg(intro, 0.5, 2.0);
       title(this.open, tin, seg(p, 0.06, 0.15), 60);
-      const subA = easeOut(seg(intro, 2.0, 3.0)).toFixed(3);
+      const subA = easeOut(seg(intro, 1.3, 2.3)).toFixed(3);
       this.openSub.forEach((e) => setStyle(e, "opacity", subA));
       title(this.works, seg(p, 0.4, 0.48), seg(p, 0.6, 0.66));
       title(this.time, seg(p, 0.68, 0.76), seg(p, 0.9, 0.96));
@@ -118,7 +184,7 @@
       const cl = `00:${String(Math.floor(secs / 60)).padStart(2, "0")}:${String(secs % 60).padStart(2, "0")}`;
       if (this.clock.textContent !== cl) this.clock.textContent = cl;
 
-      const power = easeInOut(seg(intro, 0.1, 2.4));
+      const power = easeInOut(seg(intro, 0, 1.8));
       setStyle(this.dark, "opacity", Math.max(1 - power, seg(p, 0.93, 1)).toFixed(3));
       if (!this.c) return;
       // lamps warm up one after another, with one soft dip (no hard strobing)
@@ -228,7 +294,7 @@
       });
       const tg = this.slots.find((s) => s.code === "A-04-02") || this.slots[Math.floor(this.slots.length / 2)];
       this.tgtRect = svg("rect", { class: "target", x: tg.x0, y: tg.y0, width: tg.w, height: tg.h }, this.grid);
-      this.tLabel = svg("text", { class: "slot-code", x: tg.x0 + 10, y: tg.y1 || tg.y0 + tg.h - 14, style: "font-size:16px;fill:#3df58a" }, this.grid);
+      this.tLabel = svg("text", { class: "slot-code", x: tg.x0 + 10, y: tg.y1 || tg.y0 + tg.h - 14, style: "font-size:16px;fill:#10a55b" }, this.grid);
       this.tLabel.textContent = "MCB 32A DP · 1,240";
       this.flash = svg("rect", { class: "flash", x: 0, y: 0, width: 0, height: 0 }, this.grid);
       this.searchOrder = [7, 13, 2, 16, 5, 11, 19, 1].map((i) => this.slots[i % this.slots.length]);
@@ -289,20 +355,20 @@
       const S = this.svgEl;
       const defs = svg("defs", {}, S);
       const lg = svg("linearGradient", { id: "trailGrad", gradientUnits: "userSpaceOnUse", x1: 200, y1: 0, x2: 2850, y2: 0 }, defs);
-      svg("stop", { offset: 0, "stop-color": "#4da3ff" }, lg); svg("stop", { offset: 1, "stop-color": "#3df58a" }, lg);
+      svg("stop", { offset: 0, "stop-color": "#1f6feb" }, lg); svg("stop", { offset: 1, "stop-color": "#10a55b" }, lg);
       const f = svg("filter", { id: "glow", x: "-20%", y: "-20%", width: "140%", height: "140%" }, defs);
       svg("feGaussianBlur", { stdDeviation: 6, result: "b" }, f);
       const m = svg("feMerge", {}, f); svg("feMergeNode", { in: "b" }, m); svg("feMergeNode", { in: "SourceGraphic" }, m);
       // floor grid
-      for (let x = 0; x <= 3000; x += 100) svg("line", { x1: x, y1: 0, x2: x, y2: 1400, stroke: "rgba(255,255,255,.035)" }, S);
-      for (let y = 0; y <= 1400; y += 100) svg("line", { x1: 0, y1: y, x2: 3000, y2: y, stroke: "rgba(255,255,255,.035)" }, S);
+      for (let x = 0; x <= 3000; x += 100) svg("line", { x1: x, y1: 0, x2: x, y2: 1400, stroke: "rgba(17,17,17,.05)" }, S);
+      for (let y = 0; y <= 1400; y += 100) svg("line", { x1: 0, y1: y, x2: 3000, y2: y, stroke: "rgba(17,17,17,.05)" }, S);
       const zones = [["RECEIVING", 80, 560, 500, 400], ["ZONE A", 620, 200, 760, 540], ["ZONE B", 1440, 200, 760, 540], ["DISPATCH", 2260, 200, 440, 400], ["RETURNS", 2260, 900, 440, 300], ["AUDIT", 2740, 560, 220, 280]];
       zones.forEach(([n, x, y, w, h]) => { svg("rect", { class: "zone", x, y, width: w, height: h, rx: 6 }, S); svg("text", { class: "zone-l", x: x + 18, y: y + 36 }, S).textContent = n; });
       [[640, 1360], [1460, 2180]].forEach(([a, b]) => [290, 560].forEach((y) => {
         for (let x = a; x < b; x += 120) { svg("rect", { class: "rack", x, y, width: 110, height: 100 }, S); svg("rect", { class: "rack-top", x: x + 6, y: y + 6, width: 98, height: 40 }, S); }
       }));
       const d = "M220,760 C500,760 600,470 820,470 C1000,470 1000,760 1150,760 C1400,760 1550,470 1800,470 C2100,470 2200,1050 2450,1050 C2650,1050 2650,700 2830,700";
-      this.path = svg("path", { d, fill: "none", stroke: "rgba(255,255,255,.06)", "stroke-width": 2, "stroke-dasharray": "4 10" }, S);
+      this.path = svg("path", { d, fill: "none", stroke: "rgba(17,17,17,.16)", "stroke-width": 2, "stroke-dasharray": "4 10" }, S);
       this.trailM = svg("path", { class: "trail-manual", d: "M0,0" }, S);
       this.trailD = svg("path", { class: "trail-digital", d: "M0,0" }, S);
       const len = this.path.getTotalLength();
@@ -321,7 +387,7 @@
       this.box = svg("g", { class: "box" }, S);
       svg("rect", { x: -24, y: -24, width: 48, height: 48, rx: 3, fill: "#b58650" }, this.box);
       svg("rect", { x: -4, y: -24, width: 8, height: 48, fill: "#d8b27a", opacity: 0.6 }, this.box);
-      this.boxRing = svg("circle", { r: 40, fill: "none", stroke: "#ffb547", "stroke-width": 2, opacity: 0.6 }, this.box);
+      this.boxRing = svg("circle", { r: 40, fill: "none", stroke: "#d98a00", "stroke-width": 2, opacity: 0.6 }, this.box);
       // movement schedule: [from, to, p0, p1]
       const e = this.events.map((v) => v.i);
       this.sched = [[0, e[0], 0.06, 0.32], [e[0], e[1], 0.42, 0.52], [e[1], e[2], 0.54, 0.65], [e[2], e[3], 0.67, 0.77], [e[3], e[4], 0.79, 0.89]];
@@ -352,7 +418,7 @@
       const bx = lerp(this.samples[i][0], this.samples[i + 1][0], fr), by = lerp(this.samples[i][1], this.samples[i + 1][1], fr);
       this.box.setAttribute("transform", `translate(${bx.toFixed(1)},${by.toFixed(1)})`);
       const sw = seg(p, 0.34, 0.42); // manual → WAREXX
-      this.boxRing.setAttribute("stroke", sw > 0.5 ? "#3df58a" : "#ffb547");
+      this.boxRing.setAttribute("stroke", sw > 0.5 ? "#10a55b" : "#d98a00");
       // manual trail: short, dashed, forgotten behind the box
       this.trailM.setAttribute("d", this.pathPts(Math.max(0, t - 0.08), t));
       setStyle(this.trailM, "opacity", ((1 - sw) * 0.85).toFixed(3));
@@ -495,7 +561,7 @@
       const ln = $('[data-chart="line"]', root);
       const defs = svg("defs", {}, ln);
       const g = svg("linearGradient", { id: "areaG", x1: 0, x2: 0, y1: 0, y2: 1 }, defs);
-      svg("stop", { offset: 0, "stop-color": "#3df58a", "stop-opacity": 0.22 }, g); svg("stop", { offset: 1, "stop-color": "#3df58a", "stop-opacity": 0 }, g);
+      svg("stop", { offset: 0, "stop-color": "#10a55b", "stop-opacity": 0.22 }, g); svg("stop", { offset: 1, "stop-color": "#10a55b", "stop-opacity": 0 }, g);
       const today = [0, 1.1, 2.9, 4.8, 6.4, 8.9, 11.6, 14.2, 16.4, 18.9, 21.36];
       const yday = [0, 1.0, 2.5, 4.3, 5.9, 8.1, 10.6, 13.0, 15.1, 17.3, 19.76, 21.4, 22.1];
       const hours = ["8 AM", "9 AM", "10 AM", "11 AM", "12 PM", "1 PM", "2 PM", "3 PM", "4 PM", "5 PM", "6 PM", "7 PM", "8 PM"];
@@ -550,8 +616,8 @@
         const o = this.order[i];
         if (o < t) continue;
         const x = (i % cols) * cell, y = Math.floor(i / cols) * cell;
-        if (o < t + 0.07) { c.fillStyle = o < t + 0.025 ? "rgba(214,204,255,.9)" : "rgba(155,123,255,.55)"; c.fillRect(x, y, cell - 1, cell - 1); }
-        else { c.fillStyle = "#050505"; c.fillRect(x, y, cell, cell); }
+        if (o < t + 0.07) { c.fillStyle = o < t + 0.025 ? "rgba(110,75,242,.85)" : "rgba(110,75,242,.35)"; c.fillRect(x, y, cell - 1, cell - 1); }
+        else { c.fillStyle = "#f5f4f0"; c.fillRect(x, y, cell, cell); }
       }
     },
     update(p) {
@@ -629,9 +695,9 @@
       this.did1 = $('[data-el="didnt"]', s.el); this.did2 = $('[data-el="did"]', s.el);
       this.net = $('[data-el="net"]', s.el); this.labels = $('[data-el="netLabels"]', s.el);
       this.dark = document.createElement("div");
-      this.dark.style.cssText = "position:absolute;inset:0;background:#000;pointer-events:none;z-index:2;opacity:.25";
+      this.dark.style.cssText = "position:absolute;inset:0;background:#f5f4f0;pointer-events:none;z-index:2;opacity:.2";
       s.stage.insertBefore(this.dark, this.net);
-      const col = { green: "#3df58a", blue: "#4da3ff", violet: "#9b7bff" };
+      const col = { green: "#10a55b", blue: "#1f6feb", violet: "#6e4bf2" };
       this.N = this.nodes.map(([t, sub, x, y, z, c], i) => {
         const el = document.createElement("div");
         el.className = "nl c-" + c; el.innerHTML = `${t}<small>${sub}</small>`;
@@ -659,7 +725,7 @@
       const on = seg(p, 0.42, 0.54);
       const flick = on > 0 && on < 1 && !RM ? (Math.sin(p * 900) > 0 ? 1 : 0.55) : 1;
       this.c.setOverlay(on * flick);
-      setStyle(this.dark, "opacity", (0.25 + seg(p, 0.55, 0.62) * 0.15).toFixed(3));
+      setStyle(this.dark, "opacity", (0.2 + seg(p, 0.55, 0.62) * 0.12).toFixed(3));
       this.c.setCamera(easeInOut(p) * 1700, RM ? 0 : Math.sin(p * 5) * 20, -260);
       const P = this.N.map((n) => {
         const a = seg(p, 0.46 + n.i * 0.02, 0.52 + n.i * 0.02);
@@ -682,16 +748,16 @@
   scenes.flow = {
     fade: [0.05, 0.05],
     stages: [
-      ["Purchase", "Requirement raised · 400 units", "#4da3ff"],
-      ["PO", "PO-2231 · approved", "#4da3ff"],
-      ["LR", "LR 88412 · in transit", "#4da3ff"],
-      ["Invoice", "SBT/1187 · captured", "#4da3ff"],
-      ["GRN", "GRN-0921 · 42 boxes received", "#3df58a"],
-      ["Inventory", "+1,240 units · live", "#3df58a"],
-      ["Warehouse", "WH-02 · A-04-02", "#3df58a"],
-      ["Store", "Store 14 · Mumbai", "#3df58a"],
-      ["Sale", "SO-5512 · ₹ 18,400", "#3df58a"],
-      ["Reports", "updated · no re-entry", "#9b7bff"],
+      ["Purchase", "Requirement raised · 400 units", "#1f6feb"],
+      ["PO", "PO-2231 · approved", "#1f6feb"],
+      ["LR", "LR 88412 · in transit", "#1f6feb"],
+      ["Invoice", "SBT/1187 · captured", "#1f6feb"],
+      ["GRN", "GRN-0921 · 42 boxes received", "#10a55b"],
+      ["Inventory", "+1,240 units · live", "#10a55b"],
+      ["Warehouse", "WH-02 · A-04-02", "#10a55b"],
+      ["Store", "Store 14 · Mumbai", "#10a55b"],
+      ["Sale", "SO-5512 · ₹ 18,400", "#10a55b"],
+      ["Reports", "updated · no re-entry", "#6e4bf2"],
     ],
     init(s) {
       const q = (k) => $(`[data-el="${k}"]`, s.el);
@@ -710,7 +776,7 @@
       const S = this.svgEl; S.innerHTML = ""; S.setAttribute("width", W); S.setAttribute("height", vh); S.setAttribute("viewBox", `0 0 ${W} ${vh}`);
       const defs = svg("defs", {}, S);
       const g = svg("linearGradient", { id: "flowGrad", gradientUnits: "userSpaceOnUse", x1: this.x0, x2: this.lastX, y1: 0, y2: 0 }, defs);
-      [[0, "#4da3ff"], [0.33, "#4da3ff"], [0.45, "#3df58a"], [0.86, "#3df58a"], [1, "#9b7bff"]].forEach(([o, c]) => svg("stop", { offset: o, "stop-color": c }, g));
+      [[0, "#1f6feb"], [0.33, "#1f6feb"], [0.45, "#10a55b"], [0.86, "#10a55b"], [1, "#6e4bf2"]].forEach(([o, c]) => svg("stop", { offset: o, "stop-color": c }, g));
       const f = svg("filter", { id: "fglow", x: "-10%", y: "-50%", width: "120%", height: "200%" }, defs);
       svg("feGaussianBlur", { stdDeviation: 4, result: "b" }, f);
       const m = svg("feMerge", {}, f); svg("feMergeNode", { in: "b" }, m); svg("feMergeNode", { in: "SourceGraphic" }, m);
@@ -765,18 +831,18 @@
       const pat = svg("pattern", { id: "dots", width: 28, height: 28, patternUnits: "userSpaceOnUse" }, defs);
       svg("circle", { class: "dotgrid", cx: 2, cy: 2, r: 1.2 }, pat);
       const gl = svg("radialGradient", { id: "homeGlow" }, defs);
-      svg("stop", { offset: 0, "stop-color": "#3df58a", "stop-opacity": 0.25 }, gl); svg("stop", { offset: 1, "stop-color": "#3df58a", "stop-opacity": 0 }, gl);
+      svg("stop", { offset: 0, "stop-color": "#10a55b", "stop-opacity": 0.25 }, gl); svg("stop", { offset: 1, "stop-color": "#10a55b", "stop-opacity": 0 }, gl);
       this.world = svg("g", {}, S);
       svg("rect", { x: -4000, y: -4000, width: 8000, height: 8000, fill: "url(#dots)" }, this.world);
       svg("circle", { r: 260, fill: "url(#homeGlow)" }, this.world);
       // home warehouse: a miniature of the floor plan
       const home = svg("g", {}, this.world);
-      svg("rect", { x: -130, y: -80, width: 260, height: 160, rx: 6, fill: "#0b0c0b", stroke: "#3df58a", "stroke-width": 1.5 }, home);
-      for (let r = 0; r < 4; r++) for (let c = 0; c < 6; c++) svg("rect", { x: -112 + c * 38, y: -62 + r * 32, width: 30, height: 18, fill: "#1a1a18", stroke: "rgba(61,245,138,.35)", "stroke-width": 0.8 }, home);
+      svg("rect", { x: -130, y: -80, width: 260, height: 160, rx: 6, fill: "#ffffff", stroke: "#10a55b", "stroke-width": 1.5 }, home);
+      for (let r = 0; r < 4; r++) for (let c = 0; c < 6; c++) svg("rect", { x: -112 + c * 38, y: -62 + r * 32, width: 30, height: 18, fill: "#ecebe6", stroke: "rgba(16,165,91,.45)", "stroke-width": 0.8 }, home);
       svg("text", { class: "loc-l", x: -130, y: -96 }, home).textContent = "WAREHOUSE";
       svg("text", { class: "loc-s", x: -130, y: 104 }, home).textContent = "WH-02 · Bhiwandi · 18,420 SKUs";
       const sx = port ? 0.34 : 1, sy = port ? 1.35 : 1;
-      const locs = [["WAREHOUSE", "WH-01 · Pune", -620, -260, "#4da3ff"], ["STORE", "Store 14 · Mumbai", 540, -290, "#3df58a"], ["DISTRIBUTION CENTRE", "DC · Surat", 660, 230, "#4da3ff"], ["WAREHOUSE", "WH-04 · Nagpur", -560, 300, "#4da3ff"], ["WAREHOUSE", "WH-03 · Nashik", 60, 420, "#4da3ff"]];
+      const locs = [["WAREHOUSE", "WH-01 · Pune", -620, -260, "#1f6feb"], ["STORE", "Store 14 · Mumbai", 540, -290, "#10a55b"], ["DISTRIBUTION CENTRE", "DC · Surat", 660, 230, "#1f6feb"], ["WAREHOUSE", "WH-04 · Nagpur", -560, 300, "#1f6feb"], ["WAREHOUSE", "WH-03 · Nashik", 60, 420, "#1f6feb"]];
       const arc = (x, y, bend) => { const mx = x / 2 - y * bend, my = y / 2 + x * bend; return `M0,0 Q${mx},${my} ${x},${y}`; };
       this.locs = locs.map(([n, sub, x, y, c], i) => {
         x *= sx; y *= sy;
@@ -800,8 +866,8 @@
         const ang = r() * Math.PI * 2, rad = 1000 + r() * 1300;
         const x = Math.cos(ang) * rad * sx * (port ? 1.8 : 1), y = Math.sin(ang) * rad * 0.62 * sy;
         const near = locs[Math.floor(r() * locs.length)];
-        const l = svg("path", { class: "arc", d: `M${near[2] * sx},${near[3] * sy} Q${(x + near[2] * sx) / 2},${(y + near[3] * sy) / 2 - 120} ${x},${y}`, stroke: i % 3 ? "#4da3ff" : "#3df58a", "stroke-opacity": 0 }, this.world);
-        const dot = svg("circle", { cx: x, cy: y, r: 9, fill: i % 3 ? "#4da3ff" : "#3df58a", opacity: 0 }, this.world);
+        const l = svg("path", { class: "arc", d: `M${near[2] * sx},${near[3] * sy} Q${(x + near[2] * sx) / 2},${(y + near[3] * sy) / 2 - 120} ${x},${y}`, stroke: i % 3 ? "#1f6feb" : "#10a55b", "stroke-opacity": 0 }, this.world);
+        const dot = svg("circle", { cx: x, cy: y, r: 9, fill: i % 3 ? "#1f6feb" : "#10a55b", opacity: 0 }, this.world);
         this.far.push({ l, dot, t: r() });
       }
     },
@@ -889,12 +955,12 @@
   scenes.final = {
     entering: true,
     init(s) {
-      this.items = [$(".final-mark", s.el), $("h2", s.el), $(".sub", s.el), $(".ctas", s.el)];
+      this.items = [".final-mark", ".final-word", "h2", ".final-motto", ".ctas", ".final-note"].map((k) => $(k, s.el)).filter(Boolean);
       this.items.forEach((e) => { e.style.opacity = 0; });
     },
     update(p) {
       this.items.forEach((e, i) => {
-        const t = easeOut(seg(p, 0.35 + i * 0.1, 0.75 + i * 0.1));
+        const t = easeOut(seg(p, 0.35 + i * 0.07, 0.72 + i * 0.07));
         setStyle(e, "opacity", t.toFixed(3));
         e.style.transform = `translate3d(0,${((1 - t) * 30).toFixed(1)}px,0)`;
       });
@@ -912,7 +978,7 @@
     const s = Object.assign(Object.create(def), { el, stage: $(".stage", el), p: 0, target: 0, last: -1, ch: (el.dataset.chapter || "").split("|") });
     if (s.stage) {
       s.fadeEl = document.createElement("div");
-      s.fadeEl.style.cssText = "position:absolute;inset:0;background:#050505;pointer-events:none;z-index:30;opacity:0";
+      s.fadeEl.style.cssText = "position:absolute;inset:0;background:#f5f4f0;pointer-events:none;z-index:30;opacity:0";
       s.stage.appendChild(s.fadeEl);
     }
     s.init && s.init(s);
@@ -936,6 +1002,8 @@
      A wheel flick / swipe / key press glides to the next beat and the scene
      plays its animation on the way there. */
   const BEATS = {
+    hero: [0],
+    understand: [0.1, 0.27, 0.39, 0.51, 0.63, 0.78, 0.93],
     enter: [0, 0.27, 0.53, 0.8],
     docs: [0.2, 0.5, 0.93],
     inventory: [0.13, 0.38, 0.62, 0.86],
@@ -958,6 +1026,13 @@
     beats = [...new Set(out.map((y) => Math.min(maxY, Math.max(0, y))))].sort((x, z) => x - z);
   }
   let tween = null, lockUntil = 0, queued = 0;
+  function goTo(sel) {
+    const el = document.querySelector(sel);
+    if (!el) return;
+    tween = null; queued = 0;
+    const top = sel === "#top" ? 0 : el.offsetTop;
+    scrollTo(0, beats.find((b) => b >= top - 2) ?? top);
+  }
   function glideTo(y1) {
     const y0 = scrollY, d = Math.abs(y1 - y0);
     if (RM || d < 2) { scrollTo(0, y1); lockUntil = performance.now() + 300; return; }
@@ -1003,6 +1078,7 @@
     // keyboard
     addEventListener("keydown", (e) => {
       const t = e.target, interactive = t.closest && t.closest("a, button, input, textarea, select");
+      if (t.closest && t.closest("input, textarea, select, [contenteditable]")) return; // typing, not scrolling
       let dir = 0;
       if (e.key === "ArrowDown" || e.key === "PageDown" || (e.key === " " && !e.shiftKey && !interactive)) dir = 1;
       if (e.key === "ArrowUp" || e.key === "PageUp" || (e.key === " " && e.shiftKey && !interactive)) dir = -1;
@@ -1017,12 +1093,10 @@
     document.addEventListener("click", (e) => {
       const a = e.target.closest && e.target.closest('a[href^="#"]');
       if (!a) return;
-      const el = document.querySelector(a.getAttribute("href"));
-      if (!el) return;
+      const href = a.getAttribute("href");
+      if (href === "#" || !document.querySelector(href)) return;
       e.preventDefault();
-      tween = null; queued = 0;
-      const top = el.offsetTop;
-      scrollTo(0, beats.find((b) => b >= top - 2) ?? top);
+      goTo(href);
     });
   }
 
@@ -1070,6 +1144,7 @@
     }
     hudBar.style.transform = `scaleX(${cur.target.toFixed(3)})`;
     nav.classList.toggle("is-scrolled", y > 40);
+    document.body.classList.toggle("at-hero", y < vh * 0.5);
     if (!CAPTURE) requestAnimationFrame(frame);
   }
 
@@ -1091,7 +1166,7 @@
   measure();
   if (!CAPTURE) requestAnimationFrame(frame);
   // debug hook: render a settled frame at the current scroll position
-  window.__warexx = { render(t = performance.now()) { for (const s of S) s.p = s.target = s.entering ? clamp((scrollY + vh - s.top) / s.len) : clamp((scrollY - s.top) / s.len); frame(t); }, scenes: S };
+  window.__warexx = { goTo, render(t = performance.now()) { for (const s of S) s.p = s.target = s.entering ? clamp((scrollY + vh - s.top) / s.len) : clamp((scrollY - s.top) / s.len); frame(t); }, scenes: S };
   let vStart = null;
   if (CAPTURE) window.__warexx.capture = {
     ready: () => started && !!TEX,
@@ -1133,8 +1208,16 @@
     const enter = S.find((s) => s.el.dataset.scene === "enter");
     enter && enter.start && enter.start();
     if (CAPTURE && enter) { enter.t0 = 0; $(".curtain").style.display = "none"; }
-    document.body.classList.remove("is-loading");
+    reveal();
   };
+  // the hero never waits for the 3D textures: show it once the display font is in (or after 700 ms)
+  let revealed = false;
+  const reveal = () => {
+    if (revealed) return; revealed = true;
+    document.body.classList.remove("is-loading");
+    requestAnimationFrame(() => document.body.classList.add("hero-in"));
+  };
+  Promise.race([document.fonts ? document.fonts.ready : wait(0), wait(700)]).then(reveal);
   const failSafe = setTimeout(startIntro, 4000);
   setTimeout(async () => {
     try {
