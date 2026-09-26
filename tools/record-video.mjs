@@ -38,7 +38,7 @@ await sleep(500);
 const L = await evaluate("__warexx.capture.layout()");
 
 // ---- the camera path: seconds spent inside each scene ----
-const D = { enter: 21, docs: 11, inventory: 11, move: 12, break: 10, command: 17, transform: 13, flow: 13, network: 11, industries: 16 };
+const D = { hero: 6, enter: 21, understand: 30, docs: 11, inventory: 11, move: 12, break: 10, command: 17, transform: 13, flow: 13, network: 11, industries: 16 };
 const K = [[0, 0], [4.5, 0]];
 let t = 4.5;
 for (const s of L.scenes) {

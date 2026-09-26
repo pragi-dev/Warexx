@@ -1,5 +1,5 @@
 // Renders tools/hero-film.html into the hero background video (+ a small mobile cut and a poster).
-// usage (with `py tools/serve.py 8777` running):  node tools/record-hero.mjs [--port 8777]
+// usage (with `npm run serve` running):  node tools/record-hero.mjs [--port 8766]
 import { spawn } from "node:child_process";
 import { mkdirSync, writeFileSync } from "node:fs";
 import { createRequire } from "node:module";
@@ -8,7 +8,7 @@ const FFMPEG = require("ffmpeg-static");
 
 const arg = (k, d) => { const i = process.argv.indexOf("--" + k); return i > 0 ? process.argv[i + 1] : d; };
 const FPS = 30, W = 1920, H = 1080;
-const URL = `http://localhost:${arg("port", "8777")}/tools/hero-film.html?capture`;
+const URL = `http://localhost:${arg("port", "8766")}/tools/hero-film.html?capture`;
 const CHROME = "C:/Program Files/Google/Chrome/Application/chrome.exe";
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 mkdirSync("media", { recursive: true });
