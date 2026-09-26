@@ -1,0 +1,13 @@
+{
+  "name": "warexx-landing",
+  "private": true,
+  "description": "WAREXX cinematic landing page. Plain HTML/CSS/JS, no build step. Node is only needed to record the video.",
+  "scripts": {
+    "serve": "py tools/serve.py 8766",
+    "bundle": "py tools/bundle.py",
+    "video": "node tools/record-video.mjs --out warexx-walkthrough.mp4"
+  },
+  "devDependencies": {
+    "ffmpeg-static": "^5.3.0"
+  }
+}

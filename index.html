@@ -1,0 +1,483 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>WAREXX — One platform. Every operation.</title>
+<meta name="description" content="WAREXX brings operations, data and decisions into one intelligent platform.">
+<meta name="theme-color" content="#050505">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Caveat:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css?v=11">
+</head>
+<body class="is-loading">
+
+<!-- ============ NAV ============ -->
+<header class="nav" id="nav">
+  <a class="brand" href="#top" aria-label="WAREXX home">
+    <svg class="brand-mark" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4l7.5 16L12 16.8" /><path d="M21 4l-7.5 16L12 16.8" /><path class="acc" d="M8.2 4L12 12l3.8-8" /></svg>
+    <span>WAREXX</span>
+  </a>
+  <nav class="nav-links" aria-label="Primary">
+    <a href="#s-command">Product</a>
+    <a href="#s-flow">Solutions</a>
+    <a href="#s-industries">Industries</a>
+    <a href="#s-final">About</a>
+  </nav>
+  <a class="btn btn-sm" href="#s-final">Book a Demo</a>
+</header>
+
+<!-- ============ CHAPTER HUD ============ -->
+<div class="hud" aria-hidden="true">
+  <span class="hud-num" id="hudNum">01</span>
+  <span class="hud-line"><i id="hudBar"></i></span>
+  <span class="hud-name" id="hudName">The manual warehouse</span>
+</div>
+
+<main id="top">
+
+<!-- ============ 01 · ENTER THE WAREHOUSE ============ -->
+<section class="scene" id="s-enter" data-scene="enter" data-chapter="01|The manual warehouse|amber" style="--len:760">
+  <div class="stage">
+    <div class="vp3d" data-corridor="manual"></div>
+    <div class="billboards" data-billboards></div>
+    <div class="depth-fog"></div>
+    <div class="letterbox"></div>
+
+    <div class="title-block t-open" data-el="open">
+      <p class="kicker amber"><span class="dot"></span>Warehouse 01 · 06:40 AM</p>
+      <h1 class="display">
+        <span class="line"><span>Every operation</span></span>
+        <span class="line"><span>starts somewhere.</span></span>
+      </h1>
+      <p class="sub">Before systems, there were people, papers and processes.</p>
+      <div class="scroll-cue"><span></span>Scroll to walk in</div>
+    </div>
+
+    <div class="title-block t-works" data-el="works">
+      <h2 class="display xl"><span class="line"><span>Everything works.</span></span></h2>
+    </div>
+    <div class="title-block t-time" data-el="time">
+      <h2 class="display xl amber-soft"><span class="line"><span>But everything</span></span><span class="line"><span>takes time.</span></span></h2>
+      <p class="mono ticker amber">SEARCHING FOR INVOICE #4471 · <span data-el="clock">00:00:00</span></p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 02 · DOCUMENTS ============ -->
+<section class="scene" id="s-docs" data-scene="docs" data-chapter="02|From documents to data|amber" style="--len:520">
+  <div class="stage docs-stage">
+    <div class="desk-light"></div>
+    <div class="docs-heads">
+      <h2 class="display lg" data-el="fromDocs"><span class="line"><span>From documents</span></span></h2>
+      <h2 class="display lg green-end" data-el="toData"><span class="line"><span>to data.</span></span></h2>
+    </div>
+
+    <div class="docs-grid">
+      <div class="paper-wrap" data-el="paperWrap">
+        <article class="paper" data-el="paper" aria-label="Paper invoice">
+          <div class="paper-head">
+            <div>
+              <b class="sp" data-f="supplier">SHREE BALAJI TRADERS</b>
+              <small>Plot 14, MIDC Bhosari, Pune 411026 · GSTIN 27AABFS1187K1Z2</small>
+            </div>
+            <div class="paper-title">TAX INVOICE</div>
+          </div>
+          <div class="paper-meta">
+            <span>Invoice No. <b class="sp" data-f="invno">SBT/26-27/1187</b></span>
+            <span>Date <b class="sp" data-f="date">25-09-2026</b></span>
+            <span>LR No. 88412</span>
+          </div>
+          <table class="paper-table">
+            <thead><tr><th>Description</th><th>Qty</th><th>Rate</th><th>Amount</th></tr></thead>
+            <tbody>
+              <tr><td class="sp" data-f="p1">PVC Conduit 25mm</td><td class="sp" data-f="q1">400</td><td class="sp" data-f="r1">62.00</td><td>24,800.00</td></tr>
+              <tr><td class="sp" data-f="p2">MCB 32A DP</td><td class="sp" data-f="q2">120</td><td class="sp" data-f="r2">385.00</td><td>46,200.00</td></tr>
+              <tr><td class="sp" data-f="p3">Cu Wire 2.5 sq mm</td><td class="sp" data-f="q3">18</td><td class="sp" data-f="r3">1,480.00</td><td>26,640.00</td></tr>
+            </tbody>
+          </table>
+          <div class="paper-foot">
+            <div class="hand">recd. 42 box — chk qty w/ PO<br>short 2? — call Ramesh</div>
+            <div class="paper-totals">
+              <span>Sub-total <b class="sp" data-f="sub">₹ 97,640.00</b></span>
+              <span>GST 18% <b class="sp" data-f="tax">₹ 17,575.20</b></span>
+              <span class="grand">Total <b class="sp" data-f="total">₹ 1,15,215.20</b></span>
+            </div>
+          </div>
+          <div class="stamp">RECEIVED<br><small>25 SEP 2026</small></div>
+          <div class="scanline" data-el="scan"></div>
+        </article>
+        <div class="paper-shadow"></div>
+      </div>
+
+      <div class="record" data-el="record" aria-label="WAREXX digital record">
+        <div class="record-top"><span class="live"></span>WAREXX <em>· Document captured</em><span class="rid">DOC-20260925-1187</span></div>
+        <dl class="record-fields">
+          <div><dt>Supplier</dt><dd data-t="supplier">Shree Balaji Traders</dd></div>
+          <div><dt>Invoice No.</dt><dd data-t="invno">SBT/26-27/1187</dd></div>
+          <div><dt>Date</dt><dd data-t="date">25 Sep 2026</dd></div>
+        </dl>
+        <div class="record-table">
+          <div class="rt-row rt-h"><span>Product</span><span>Qty</span><span>Rate</span></div>
+          <div class="rt-row"><span data-t="p1">PVC Conduit 25mm</span><span data-t="q1">400</span><span data-t="r1">₹ 62.00</span></div>
+          <div class="rt-row"><span data-t="p2">MCB 32A DP</span><span data-t="q2">120</span><span data-t="r2">₹ 385.00</span></div>
+          <div class="rt-row"><span data-t="p3">Cu Wire 2.5 sq mm</span><span data-t="q3">18</span><span data-t="r3">₹ 1,480.00</span></div>
+        </div>
+        <dl class="record-fields three">
+          <div><dt>Sub-total</dt><dd data-t="sub">₹ 97,640.00</dd></div>
+          <div><dt>Tax · GST 18%</dt><dd data-t="tax">₹ 17,575.20</dd></div>
+          <div><dt>Total</dt><dd data-t="total">₹ 1,15,215.20</dd></div>
+        </dl>
+        <div class="record-status"><span class="ok">✓ Matched to PO-2231</span><span class="pend">GRN ready</span></div>
+      </div>
+    </div>
+    <div class="chips" data-el="chips" aria-hidden="true"></div>
+  </div>
+</section>
+
+<!-- ============ 03 · INVENTORY ============ -->
+<section class="scene" id="s-inventory" data-scene="inventory" data-chapter="03|Inventory|amber" style="--len:560">
+  <div class="stage inv-stage">
+    <div class="inv-frame" data-el="invFrame">
+      <img class="inv-rack" data-el="rackImg" alt="" decoding="async">
+      <svg class="inv-grid" data-el="invGrid" viewBox="0 0 1600 900" preserveAspectRatio="none" aria-hidden="true"></svg>
+    </div>
+    <div class="inv-shade"></div>
+    <svg class="worker worker-inv" data-el="worker" viewBox="0 0 200 520" aria-hidden="true"><use href="#sym-worker-clip"/></svg>
+
+    <div class="counter mono amber" data-el="counter">
+      <div class="c-state" data-el="cState">COUNTING…</div>
+      <div class="c-val"><span data-el="cVal">0</span><small data-el="cSub">boxes · aisle 4 · bay ?</small></div>
+      <div class="c-bar"><i data-el="cBar"></i></div>
+    </div>
+
+    <div class="inv-heads">
+      <h2 class="display lg" data-el="know1"><span class="line"><span>Know what you have.</span></span></h2>
+      <h2 class="display lg" data-el="know2"><span class="line"><span>Know where it is.</span></span></h2>
+    </div>
+
+    <div class="inv-panel" data-el="invPanel">
+      <div class="ip-top"><span class="live"></span>Live stock · WH-02 Bhiwandi</div>
+      <div class="ip-row ip-h"><span>Product</span><span>Qty</span><span>Location</span><span>Status</span><span>Movement</span></div>
+      <div class="ip-row is-sel"><span>MCB 32A DP</span><span>1,240</span><span>A-04-02</span><span class="ok">In stock</span><span class="up">+120 today</span></div>
+      <div class="ip-row"><span>PVC Conduit 25mm</span><span>6,800</span><span>A-02-01</span><span class="ok">In stock</span><span class="up">+400</span></div>
+      <div class="ip-row"><span>Cu Wire 2.5 sq</span><span>36</span><span>B-11-03</span><span class="warn">Low</span><span class="dn">−18</span></div>
+      <div class="ip-row"><span>Junction Box 4×4</span><span>2,150</span><span>A-06-04</span><span class="ok">In stock</span><span>—</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 04 · STOCK MOVEMENT ============ -->
+<section class="scene" id="s-move" data-scene="move" data-chapter="04|Stock movement|blue" style="--len:600">
+  <div class="stage move-stage">
+    <div class="plan-vp">
+      <div class="plan" data-el="plan">
+        <svg class="plan-svg" data-el="planSvg" viewBox="0 0 3000 1400" aria-hidden="true"></svg>
+      </div>
+    </div>
+    <div class="move-shade"></div>
+
+    <div class="chain chain-manual" data-el="chainManual">
+      <span class="chain-tag amber">Today</span>
+      <ol><li>Register</li><li>Phone call</li><li>Paper entry</li><li>Update</li></ol>
+    </div>
+    <div class="chain chain-warexx" data-el="chainWarexx">
+      <span class="chain-tag green">WAREXX</span>
+      <ol><li>Stock in</li><li>Stock out</li><li>Transfer</li><li>Return</li><li>Audit</li></ol>
+    </div>
+
+    <div class="move-head" data-el="moveHead">
+      <h2 class="display lg"><span class="line"><span>Every movement</span></span><span class="line"><span>leaves a record.</span></span></h2>
+    </div>
+
+    <div class="log mono" data-el="log" aria-hidden="true"></div>
+  </div>
+</section>
+
+<!-- ============ 05 · BREAKING POINT ============ -->
+<section class="scene" id="s-break" data-scene="break" data-chapter="05|The breaking point|amber" style="--len:520">
+  <div class="stage break-stage">
+    <div class="pile" data-el="pile" aria-hidden="true"></div>
+    <div class="break-vignette" data-el="vig"></div>
+    <h2 class="display lg question" data-el="question"><span class="line"><span>Where is the answer?</span></span></h2>
+  </div>
+</section>
+
+<!-- ============ 06 · COMMAND CENTER ============ -->
+<section class="scene" id="s-command" data-scene="command" data-chapter="06|Command Center|violet" style="--len:780">
+  <div class="stage cmd-stage">
+    <div class="cmd-aura"></div>
+    <h2 class="display xl cmd-head" data-el="justAsk"><span class="line"><span>Or… just ask.</span></span></h2>
+
+    <div class="cmd" data-el="cmd">
+      <canvas class="pixels" data-el="pixels" aria-hidden="true"></canvas>
+      <div class="cmd-bar">
+        <svg class="cmd-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg>
+        <div class="cmd-input"><span data-el="qText"></span><i class="caret"></i><span class="cmd-ph" data-el="qPh">Ask anything about your operations</span></div>
+        <kbd>⌘ K</kbd>
+      </div>
+      <div class="cmd-think" data-el="think"><i></i><span class="mono" data-el="thinkText">Reading 12,480 records across 6 warehouses</span></div>
+      <div class="cmd-recent mono" data-el="recent"></div>
+
+      <div class="answers">
+        <!-- A1 -->
+        <div class="ans" data-ans="0">
+          <div class="ans-l">
+            <p class="ans-k">Total invoices · today</p>
+            <p class="hero-num" data-count="4872310" data-prefix="₹ " data-fmt="inr">₹ 0</p>
+            <p class="ans-meta"><b>142</b> invoices · <b>38</b> suppliers · <span class="up">▲ 12.4%</span> vs yesterday</p>
+            <div class="split">
+              <div class="split-bar"><i class="s-ok" style="--w:68%"></i><i class="s-pend" style="--w:32%"></i></div>
+              <div class="split-legend"><span><i class="k-ok"></i>Cleared 96</span><span><i class="k-pend"></i>Pending 46</span></div>
+            </div>
+          </div>
+          <figure class="ans-r">
+            <figcaption>Invoice value by hour (₹ lakh)</figcaption>
+            <svg class="chart" data-chart="bars" viewBox="0 0 440 200" role="img" aria-label="Hourly invoice value, peaking at 2 PM"></svg>
+          </figure>
+        </div>
+        <!-- A2 -->
+        <div class="ans" data-ans="1">
+          <div class="ans-l">
+            <p class="ans-k">Highest stock · right now</p>
+            <p class="hero-num sm">WH-02 Bhiwandi</p>
+            <p class="ans-meta"><b>18,420</b> SKUs · <b>2.41 L</b> units · 72% capacity</p>
+          </div>
+          <figure class="ans-r">
+            <figcaption>Units on hand by warehouse (thousand)</figcaption>
+            <svg class="chart" data-chart="hbars" viewBox="0 0 440 200" role="img" aria-label="Stock by warehouse; WH-02 Bhiwandi highest at 241 thousand units"></svg>
+          </figure>
+        </div>
+        <!-- A3 -->
+        <div class="ans" data-ans="2">
+          <div class="ans-l">
+            <p class="ans-k">Sales · today</p>
+            <p class="hero-num" data-count="2136480" data-prefix="₹ " data-fmt="inr">₹ 0</p>
+            <p class="ans-meta"><b>318</b> orders · <span class="up">▲ 8.1%</span> vs yesterday</p>
+            <div class="mini-stats">
+              <div><span>Stores</span><b>₹ 11.2 L</b></div>
+              <div><span>Distributors</span><b>₹ 7.9 L</b></div>
+              <div><span>Online</span><b>₹ 2.3 L</b></div>
+            </div>
+          </div>
+          <figure class="ans-r">
+            <figcaption><span class="lg-today"></span>Today <span class="lg-yday"></span>Yesterday · cumulative ₹ lakh</figcaption>
+            <svg class="chart" data-chart="line" viewBox="0 0 440 200" role="img" aria-label="Cumulative sales today versus yesterday"></svg>
+          </figure>
+        </div>
+      </div>
+      <div class="tip mono" data-el="tip" role="status"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 07 · THE WAREHOUSE TRANSFORMS ============ -->
+<section class="scene" id="s-transform" data-scene="transform" data-chapter="07|The warehouse transforms|green" style="--len:680">
+  <div class="stage">
+    <div class="vp3d" data-corridor="digital"></div>
+    <div class="billboards" data-billboards></div>
+    <svg class="net-overlay" data-el="net" aria-hidden="true"></svg>
+    <div class="net-labels" data-el="netLabels" aria-hidden="true"></div>
+    <div class="depth-fog"></div>
+    <div class="letterbox"></div>
+    <div class="title-block t-center" data-el="didnt">
+      <h2 class="display xl"><span class="line"><span>The warehouse</span></span><span class="line"><span>didn't change.</span></span></h2>
+    </div>
+    <div class="title-block t-center" data-el="did">
+      <h2 class="display xl"><span class="line"><span>The way you</span></span><span class="line"><span>run it <em class="g">did.</em></span></span></h2>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 08 · COMPLETE OPERATION ============ -->
+<section class="scene" id="s-flow" data-scene="flow" data-chapter="08|Complete operation|green" style="--len:700">
+  <div class="stage flow-stage">
+    <div class="flow-bg" data-el="flowBg"></div>
+    <div class="flow-intro">
+      <p class="kicker green"><span class="dot"></span>One continuous record</p>
+      <h2 class="display md">Purchase to report.<br><span class="muted">Nothing entered twice.</span></h2>
+    </div>
+    <div class="flow-track" data-el="track">
+      <svg class="flow-svg" data-el="flowSvg" aria-hidden="true"></svg>
+      <div class="flow-nodes" data-el="flowNodes"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 09 · MULTIPLE LOCATIONS ============ -->
+<section class="scene" id="s-network" data-scene="network" data-chapter="09|Every location|blue" style="--len:600">
+  <div class="stage net-stage">
+    <svg class="map" data-el="map" aria-hidden="true"></svg>
+    <div class="net-final" data-el="netFinal">
+      <p class="wordmark-sm">WAREXX</p>
+      <h2 class="display lg"><span class="line"><span>One platform.</span></span><span class="line"><span>Every operation.</span></span></h2>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 10 · EVERY INDUSTRY ============ -->
+<section class="scene" id="s-industries" data-scene="industries" data-chapter="10|Every industry|green" style="--len:640">
+  <div class="stage ind-stage">
+    <div class="ind-head" data-el="indHead">
+      <p class="kicker green"><span class="dot"></span>Built for every warehouse</p>
+      <h2 class="display lg"><span class="line"><span>Wherever</span></span><span class="line"><span>stock moves.</span></span></h2>
+      <p class="sub">One platform for every industry that makes, stores, moves or sells goods.</p>
+    </div>
+    <div class="ind-track" data-el="indTrack">
+        <article class="ind">
+          <div class="ind-media"><img alt="Robotic arms on a manufacturing line" data-src="https://images.unsplash.com/photo-1647427060118-4911c9821b82?auto=format&amp;fit=crop&amp;q=70&amp;w=900" data-srcset="https://images.unsplash.com/photo-1647427060118-4911c9821b82?auto=format&amp;fit=crop&amp;q=70&amp;w=600 600w, https://images.unsplash.com/photo-1647427060118-4911c9821b82?auto=format&amp;fit=crop&amp;q=70&amp;w=900 900w, https://images.unsplash.com/photo-1647427060118-4911c9821b82?auto=format&amp;fit=crop&amp;q=70&amp;w=1400 1400w" sizes="(max-width: 820px) 80vh, 90vh" decoding="async"></div>
+          <div class="ind-shade"></div>
+          <div class="ind-copy">
+            <span class="ind-n">01</span>
+            <h3>Manufacturing</h3>
+            <p>Raw material · WIP · Finished goods</p>
+          </div>
+        </article>
+        <article class="ind">
+          <div class="ind-media"><img alt="Workers sewing in a garment factory" data-src="https://images.unsplash.com/photo-1741176505800-caaa3a52631a?auto=format&amp;fit=crop&amp;q=70&amp;w=900" data-srcset="https://images.unsplash.com/photo-1741176505800-caaa3a52631a?auto=format&amp;fit=crop&amp;q=70&amp;w=600 600w, https://images.unsplash.com/photo-1741176505800-caaa3a52631a?auto=format&amp;fit=crop&amp;q=70&amp;w=900 900w, https://images.unsplash.com/photo-1741176505800-caaa3a52631a?auto=format&amp;fit=crop&amp;q=70&amp;w=1400 1400w" sizes="(max-width: 820px) 80vh, 90vh" decoding="async"></div>
+          <div class="ind-shade"></div>
+          <div class="ind-copy">
+            <span class="ind-n">02</span>
+            <h3>Textiles &amp; Garments</h3>
+            <p>Fabric rolls · Size &amp; colour SKUs · Job work</p>
+          </div>
+        </article>
+        <article class="ind">
+          <div class="ind-media"><img alt="Retail store interior with lit display cases" data-src="https://images.unsplash.com/photo-1764795850238-7a024db5e3ee?auto=format&amp;fit=crop&amp;q=70&amp;w=900" data-srcset="https://images.unsplash.com/photo-1764795850238-7a024db5e3ee?auto=format&amp;fit=crop&amp;q=70&amp;w=600 600w, https://images.unsplash.com/photo-1764795850238-7a024db5e3ee?auto=format&amp;fit=crop&amp;q=70&amp;w=900 900w, https://images.unsplash.com/photo-1764795850238-7a024db5e3ee?auto=format&amp;fit=crop&amp;q=70&amp;w=1400 1400w" sizes="(max-width: 820px) 80vh, 90vh" decoding="async"></div>
+          <div class="ind-shade"></div>
+          <div class="ind-copy">
+            <span class="ind-n">03</span>
+            <h3>Retail &amp; Retail Chains</h3>
+            <p>Store stock · Replenishment · Transfers</p>
+          </div>
+        </article>
+        <article class="ind">
+          <div class="ind-media"><img alt="Tall warehouse racks loaded with pallets" data-src="https://images.unsplash.com/photo-1689942010216-dc412bb1e7a9?auto=format&amp;fit=crop&amp;q=70&amp;w=900" data-srcset="https://images.unsplash.com/photo-1689942010216-dc412bb1e7a9?auto=format&amp;fit=crop&amp;q=70&amp;w=600 600w, https://images.unsplash.com/photo-1689942010216-dc412bb1e7a9?auto=format&amp;fit=crop&amp;q=70&amp;w=900 900w, https://images.unsplash.com/photo-1689942010216-dc412bb1e7a9?auto=format&amp;fit=crop&amp;q=70&amp;w=1400 1400w" sizes="(max-width: 820px) 80vh, 90vh" decoding="async"></div>
+          <div class="ind-shade"></div>
+          <div class="ind-copy">
+            <span class="ind-n">04</span>
+            <h3>Wholesale &amp; Distribution</h3>
+            <p>Bulk stock · Dispatch · Order fulfilment</p>
+          </div>
+        </article>
+        <article class="ind">
+          <div class="ind-media"><img alt="Stocked aisle of consumer goods" data-src="https://images.unsplash.com/photo-1604719312566-8912e9227c6a?auto=format&amp;fit=crop&amp;q=70&amp;w=900" data-srcset="https://images.unsplash.com/photo-1604719312566-8912e9227c6a?auto=format&amp;fit=crop&amp;q=70&amp;w=600 600w, https://images.unsplash.com/photo-1604719312566-8912e9227c6a?auto=format&amp;fit=crop&amp;q=70&amp;w=900 900w, https://images.unsplash.com/photo-1604719312566-8912e9227c6a?auto=format&amp;fit=crop&amp;q=70&amp;w=1400 1400w" sizes="(max-width: 820px) 80vh, 90vh" decoding="async"></div>
+          <div class="ind-shade"></div>
+          <div class="ind-copy">
+            <span class="ind-n">05</span>
+            <h3>FMCG &amp; Consumer Goods</h3>
+            <p>Batches · Expiry · High-volume dispatch</p>
+          </div>
+        </article>
+        <article class="ind">
+          <div class="ind-media"><img alt="Robots assembling a car body" data-src="https://images.unsplash.com/photo-1567789884554-0b844b597180?auto=format&amp;fit=crop&amp;q=70&amp;w=900" data-srcset="https://images.unsplash.com/photo-1567789884554-0b844b597180?auto=format&amp;fit=crop&amp;q=70&amp;w=600 600w, https://images.unsplash.com/photo-1567789884554-0b844b597180?auto=format&amp;fit=crop&amp;q=70&amp;w=900 900w, https://images.unsplash.com/photo-1567789884554-0b844b597180?auto=format&amp;fit=crop&amp;q=70&amp;w=1400 1400w" sizes="(max-width: 820px) 80vh, 90vh" decoding="async"></div>
+          <div class="ind-shade"></div>
+          <div class="ind-copy">
+            <span class="ind-n">06</span>
+            <h3>Automotive &amp; Auto Components</h3>
+            <p>Part numbers · Bins · Vendor supplies</p>
+          </div>
+        </article>
+        <article class="ind">
+          <div class="ind-media"><img alt="Robotic arm over a circuit board" data-src="https://images.unsplash.com/photo-1532186773960-85649e5cb70b?auto=format&amp;fit=crop&amp;q=70&amp;w=900" data-srcset="https://images.unsplash.com/photo-1532186773960-85649e5cb70b?auto=format&amp;fit=crop&amp;q=70&amp;w=600 600w, https://images.unsplash.com/photo-1532186773960-85649e5cb70b?auto=format&amp;fit=crop&amp;q=70&amp;w=900 900w, https://images.unsplash.com/photo-1532186773960-85649e5cb70b?auto=format&amp;fit=crop&amp;q=70&amp;w=1400 1400w" sizes="(max-width: 820px) 80vh, 90vh" decoding="async"></div>
+          <div class="ind-shade"></div>
+          <div class="ind-copy">
+            <span class="ind-n">07</span>
+            <h3>Electronics &amp; Electrical</h3>
+            <p>Serial numbers · Warranty · Returns</p>
+          </div>
+        </article>
+        <article class="ind">
+          <div class="ind-media"><img alt="Pharmacist picking medicine from shelves" data-src="https://images.unsplash.com/photo-1580281657527-47f249e8f4df?auto=format&amp;fit=crop&amp;q=70&amp;w=900" data-srcset="https://images.unsplash.com/photo-1580281657527-47f249e8f4df?auto=format&amp;fit=crop&amp;q=70&amp;w=600 600w, https://images.unsplash.com/photo-1580281657527-47f249e8f4df?auto=format&amp;fit=crop&amp;q=70&amp;w=900 900w, https://images.unsplash.com/photo-1580281657527-47f249e8f4df?auto=format&amp;fit=crop&amp;q=70&amp;w=1400 1400w" sizes="(max-width: 820px) 80vh, 90vh" decoding="async"></div>
+          <div class="ind-shade"></div>
+          <div class="ind-copy">
+            <span class="ind-n">08</span>
+            <h3>Pharmaceuticals &amp; Healthcare</h3>
+            <p>Batch &amp; expiry · FEFO · Compliance</p>
+          </div>
+        </article>
+        <article class="ind">
+          <div class="ind-media"><img alt="Warehouse floor with a fleet of forklifts" data-src="https://images.unsplash.com/photo-1740733448722-82e16d3468bb?auto=format&amp;fit=crop&amp;q=70&amp;w=900" data-srcset="https://images.unsplash.com/photo-1740733448722-82e16d3468bb?auto=format&amp;fit=crop&amp;q=70&amp;w=600 600w, https://images.unsplash.com/photo-1740733448722-82e16d3468bb?auto=format&amp;fit=crop&amp;q=70&amp;w=900 900w, https://images.unsplash.com/photo-1740733448722-82e16d3468bb?auto=format&amp;fit=crop&amp;q=70&amp;w=1400 1400w" sizes="(max-width: 820px) 80vh, 90vh" decoding="async"></div>
+          <div class="ind-shade"></div>
+          <div class="ind-copy">
+            <span class="ind-n">09</span>
+            <h3>Logistics &amp; 3PL</h3>
+            <p>Multi-client stock · Inbound · Outbound</p>
+          </div>
+        </article>
+    </div>
+    <div class="ind-count mono" data-el="indCount"><b>01</b> / 09</div>
+  </div>
+</section>
+
+<!-- ============ 11 · FINAL ============ -->
+<section class="final" id="s-final" data-scene="final" data-chapter="11|Connected|green">
+  <div class="final-inner">
+    <svg class="final-mark" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4l7.5 16L12 16.8" /><path d="M21 4l-7.5 16L12 16.8" /><path class="acc" d="M8.2 4L12 12l3.8-8" /></svg>
+    <h2 class="display xl">Your business.<br>Connected<em class="g">.</em></h2>
+    <p class="sub">WAREXX brings operations, data and decisions into one intelligent platform.</p>
+    <div class="ctas">
+      <a class="btn" href="mailto:hello@warexx.com?subject=WAREXX%20demo">Book a Demo</a>
+      <a class="btn btn-ghost" href="#s-command">Explore WAREXX <span aria-hidden="true">→</span></a>
+    </div>
+  </div>
+  <footer class="footer">
+    <div class="foot-row">
+      <span>© 2026 WAREXX</span>
+      <nav aria-label="Footer"><a href="#s-command">Product</a><a href="#s-flow">Solutions</a><a href="#s-industries">Industries</a><a href="#s-final">About</a></nav>
+      <span class="mono">Inventory · Procurement · Documents · Sales · Reports</span>
+    </div>
+    <p class="credits">Industry photography via Unsplash: Simon Kadula, EqualStock, Cova Software, AFINIS Group, Franki Chamaki, Lenny Kuhne, Louis Reed, National Cancer Institute, Duc LE.</p>
+    <div class="giant" aria-hidden="true">WAREXX</div>
+  </footer>
+</section>
+
+</main>
+
+<!-- Shared silhouettes -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <linearGradient id="rim" x1="0" x2="1"><stop offset="0" stop-color="#0d0c0b"/><stop offset=".86" stop-color="#070707"/><stop offset="1" stop-color="#4a3418"/></linearGradient>
+    <symbol id="sym-worker" viewBox="0 0 200 520">
+      <g fill="url(#rim)">
+        <circle cx="100" cy="52" r="30"/>
+        <path d="M58 100q42-18 84 0l14 150-16 6-8-92-4 110h-56l-4-110-8 92-16-6z"/>
+        <path d="M66 268h68l6 240h-30l-10-190-10 190H60z"/>
+      </g>
+      <g fill="#b9772a" opacity=".32"><rect x="66" y="170" width="68" height="7" rx="2"/><rect x="66" y="208" width="68" height="7" rx="2"/></g>
+      <path d="M70 26q30-26 60 0v10H70z" fill="#6b4a1c" opacity=".7"/>
+    </symbol>
+    <symbol id="sym-worker-clip" viewBox="0 0 200 520">
+      <g fill="url(#rim)">
+        <circle cx="96" cy="52" r="30"/>
+        <path d="M56 100q42-18 84 0l10 70 34 34-14 14-38-30-4 90h-56l-4-110-8 92-16-6z"/>
+        <path d="M64 268h68l6 240h-30l-10-190-10 190H58z"/>
+      </g>
+      <rect x="150" y="176" width="40" height="52" rx="3" transform="rotate(-24 170 202)" fill="#d8cfbf" opacity=".3"/>
+      <g fill="#b9772a" opacity=".32"><rect x="64" y="170" width="68" height="7" rx="2"/><rect x="64" y="208" width="68" height="7" rx="2"/></g>
+      <path d="M66 26q30-26 60 0v10H66z" fill="#6b4a1c" opacity=".7"/>
+    </symbol>
+    <symbol id="sym-forklift" viewBox="0 0 420 300">
+      <g fill="#0e0d0c">
+        <rect x="300" y="10" width="14" height="250"/><rect x="326" y="10" width="14" height="250"/>
+        <rect x="330" y="236" width="90" height="10"/><rect x="330" y="200" width="90" height="10"/>
+        <path d="M40 150h220l40 20v80H30v-70z"/>
+        <path d="M120 60h110l30 90h-18l-26-76h-86l-20 76h-18z"/>
+        <rect x="36" y="110" width="70" height="44" rx="6"/>
+      </g>
+      <circle cx="90" cy="258" r="34" fill="#070707" stroke="#2a2622" stroke-width="4"/>
+      <circle cx="250" cy="262" r="28" fill="#070707" stroke="#2a2622" stroke-width="4"/>
+      <rect x="160" y="50" width="26" height="12" rx="3" fill="#ffb547" class="beacon"/>
+      <path d="M40 180h250" stroke="#c98a2e" stroke-width="6" opacity=".7"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="grain" aria-hidden="true"></div>
+<div class="curtain" aria-hidden="true"></div>
+
+<script src="js/warehouse.js?v=11"></script>
+<script src="js/main.js?v=11"></script>
+</body>
+</html>
