@@ -681,6 +681,7 @@
   /* ---------- 08 · Complete operation ---------- */
   scenes.flow = {
     fade: [0.05, 0.05],
+    glide: 1.4,
     stages: [
       ["Purchase", "Requirement raised · 400 units", "#4da3ff"],
       ["PO", "PO-2231 · approved", "#4da3ff"],
@@ -749,6 +750,16 @@
       this.lit.style.strokeDashoffset = (this.plen - l).toFixed(1);
       this.headDot.setAttribute("cx", x.toFixed(1)); this.headDot.setAttribute("cy", y.toFixed(1));
       for (const n of this.N) n.el.classList.toggle("on", hx >= n.x - 2);
+    },
+    // one beat per stage: each scroll step glides until the next node lights up
+    beats() {
+      const span = this.lastX - this.x0, hx0 = this.vw * (isMobile() ? 0.62 : 0.58);
+      return [0.08].concat(this.N.map((n) => { // 0.08: the title, before the first node lights
+        const q = clamp((n.x - hx0 + 24) / span);
+        let lo = 0, hi = 1; // invert q = easeInOut(seg(p, 0.08, 0.92))
+        for (let k = 0; k < 30; k++) { const m = (lo + hi) / 2; if (easeInOut(m) < q) lo = m; else hi = m; }
+        return 0.08 + hi * 0.84;
+      }));
     },
   };
 
@@ -833,6 +844,7 @@
   /* ---------- 10 · Every industry ---------- */
   scenes.industries = {
     fade: [0.05, 0.05],
+    glide: 1.4,
     init(s) {
       const q = (k) => $(`[data-el="${k}"]`, s.el);
       Object.assign(this, { head: q("indHead"), track: q("indTrack"), count: q("indCount"), stage: s.stage });
@@ -867,7 +879,7 @@
       this.track.style.transform = `translate3d(${tx.toFixed(1)}px,0,0)`;
       const mid = this.vw * 0.5, n1 = this.cards.length - 1;
       // the spotlight walks card by card with scroll, so every industry gets its moment
-      const focus = seg(p, 0.1, 0.93) * n1;
+      const focus = q * n1; // follows the track, so the lit card is the one on screen
       const best = Math.round(focus);
       this.cards.forEach((c, i) => {
         const cx = tx + i * (this.cw + this.gap) + this.cw / 2;
@@ -882,6 +894,15 @@
       const n = String(best + 1).padStart(2, "0");
       if (this.count._n !== n) { this.count._n = n; this.count.innerHTML = `<b>${n}</b> / ${String(this.cards.length).padStart(2, "0")}`; }
       setStyle(this.count, "opacity", seg(p, 0.1, 0.16).toFixed(3));
+    },
+    // one beat per card: each scroll step moves the spotlight to the next industry
+    beats() {
+      const n1 = this.cards.length - 1;
+      return this.cards.map((_, i) => {
+        let lo = 0, hi = 1; // invert q = easeInOut(seg(p, 0.08, 0.93)) at q = i / n1
+        for (let k = 0; k < 30; k++) { const m = (lo + hi) / 2; if (easeInOut(m) < i / n1) lo = m; else hi = m; }
+        return Math.max(0.1, 0.08 + hi * 0.85); // 0.1: the title has fully arrived
+      });
     },
   };
 
@@ -943,9 +964,7 @@
     break: [0.62, 0.8],
     command: [0.09, 0.4, 0.65, 0.9],
     transform: [0.2, 0.5, 0.76],
-    flow: [0.1, 0.37, 0.64, 0.92],
     network: [0.25, 0.52, 0.9],
-    industries: [0.1, 0.38, 0.65, 0.93],
   };
   let beats = [];
   function buildBeats() {
@@ -953,7 +972,7 @@
     const maxY = document.documentElement.scrollHeight - vh;
     for (const s of S) {
       if (s.entering) { out.push(s.top, maxY); continue; }
-      (BEATS[s.el.dataset.scene] || [0]).forEach((q) => out.push(Math.round(s.top + q * s.len)));
+      (s.beats ? s.beats() : BEATS[s.el.dataset.scene] || [0]).forEach((q) => out.push(Math.round(s.top + q * s.len)));
     }
     beats = [...new Set(out.map((y) => Math.min(maxY, Math.max(0, y))))].sort((x, z) => x - z);
   }
@@ -961,7 +980,9 @@
   function glideTo(y1) {
     const y0 = scrollY, d = Math.abs(y1 - y0);
     if (RM || d < 2) { scrollTo(0, y1); lockUntil = performance.now() + 300; return; }
-    tween = { y0, y1, t0: performance.now(), dur: clamp(0.85 + (d / vh) * 0.1, 0.9, 1.7) * 1000 };
+    // scenes with a `glide` value (seconds) take their steps more slowly
+    const sc = S.find((s) => y1 >= s.top && y1 < s.top + s.h), min = (sc && sc.glide) || 0.9;
+    tween = { y0, y1, t0: performance.now(), dur: clamp(0.85 + (d / vh) * 0.1, min, Math.max(1.7, min)) * 1000 };
   }
   function step(dir) {
     const y = tween ? tween.y1 : scrollY;
